@@ -2,7 +2,7 @@ package fifteenpuzzle;
 
 import java.io.File;
 import java.lang.invoke.MethodHandles;
-import java.until.*;
+import java.util.*;
 
 public class Solver {
 	public static void main(String[] args) {
@@ -11,7 +11,7 @@ public class Solver {
 //			System.out.println(args[i]);
 //		}
 
-		//Hello There
+
 
 		if (args.length < 2) {
 			System.out.println("File names are not specified");
