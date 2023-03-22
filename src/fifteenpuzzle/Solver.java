@@ -7,18 +7,25 @@ import java.util.HashMap;
 
 public class Solver {
 
-	// Initialize privtate variables
+	//TODO Initialize privtate variables
 	private int boardSize = 0;
+	private int trackedMoves = 0;
 
-	// Function that creates and formats the board that will be solved
+	//TODO Function that checks if the puzzle is solvable
+	private boolean canSolvePuzzle() {
+
+		return true;
+	}
+
+	//TODO Function that creates and formats the board that will be solved
 	private Solver(File intake) {
 
 	}
 
-	// Function that solves the puzzle
+	//TODO Function that solves the puzzle
 	//private boolean
 
-	// Fucntion that checks that the board is correct
+	//TODO Function that checks that the board is correct
 	private boolean boardCorrect() {
 		// For loop that runs through depending on the size of the puzzle to see if it is correct
 		for(int i = 0; i < (boardSize-1); i++) {
@@ -30,7 +37,7 @@ public class Solver {
 		return true;
 	}
 
-	// Function that takes the export file and fills it with the answer
+	//TODO Function that takes the export file and fills it with the answer
 	private void exporter(File export) {
 
 	}
