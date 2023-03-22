@@ -29,6 +29,16 @@ public class Solver {
 		//TODO
 		File input = new File(args[0]);
 		File output = new File(args[1]);
+
+		try {
+			Tile bugg = new Tile(String.valueOf(input));
+			System.out.println("created game1: \n" + bugg);
+
+		} catch (Exception e) {
+			System.out.println("testReadFromFile1 ERROR" + e);
+			e.printStackTrace();
+		}
+
 		// solve..
 
 

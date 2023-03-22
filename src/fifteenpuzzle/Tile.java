@@ -51,6 +51,9 @@ public class Tile {
                     empty = new positional(x,y);
                     this.board[x][y] = 0;
                 }
+                System.out.println(x);
+                System.out.println(y);
+                System.out.println(board[x][y]);
             }
             x++;
         }
@@ -91,6 +94,7 @@ public class Tile {
         return board[location.x][location.y];
     }
 
+    /*
     // Valid move check
     private boolean isValid(positional candidate) {
         // Check if the x or y location is within the valid range
@@ -99,14 +103,22 @@ public class Tile {
         }
 
         // Check if the candidate movement is within the range of the empty tile
-
+        if() {
+            return false;
+        }
 
         return true;
     }
 
     // Move the empty tile to a specified location swapping it with the non empty tile in it's path
     public void tileMove(positional location) {
+        // Checks if the proposed location to move is valid
+        if(isValid(location) == false) {
+
+        }
 
     }
+
+     */
 
 }
