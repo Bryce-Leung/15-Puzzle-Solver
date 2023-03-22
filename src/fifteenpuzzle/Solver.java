@@ -2,7 +2,8 @@ package fifteenpuzzle;
 
 import java.io.File;
 import java.lang.invoke.MethodHandles;
-import java.util.*;
+import java.util.HashMap;
+
 
 public class Solver {
 
