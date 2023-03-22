@@ -9,6 +9,15 @@ public class Solver {
 	// Initialize privtate variables
 	private int boardSize = 0;
 
+	// Function that creates and formats the board that will be solved
+	private Solver(File intake) {
+
+	}
+
+	// Function that solves the puzzle
+	//private boolean
+
+	// Fucntion that checks that the board is correct
 	private boolean boardCorrect() {
 		// For loop that runs through depending on the size of the puzzle to see if it is correct
 		for(int i = 0; i < (boardSize-1); i++) {
@@ -18,6 +27,11 @@ public class Solver {
 		}
 		// If no problems are detected during the check
 		return true;
+	}
+
+	// Function that takes the export file and fills it with the answer
+	private void exporter(File export) {
+
 	}
 
 
@@ -35,18 +49,18 @@ public class Solver {
 			System.out.println("usage: java " + MethodHandles.lookup().lookupClass().getName() + " input_file output_file");
 			return;
 		}
-		
+
 
 		//TODO
-		//File input = new File(args[0]);
+		File input = new File(args[0]);
 		// solve...
-
+		//Solver brandnew = new Solver(input);
 
 
 		// Check if the solution is correct
 
 
-		//File output = new File(args[1]);
-
+		File output = new File(args[1]);
+		//brandnew.exporter(output);
 	}
 }
