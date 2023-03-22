@@ -19,6 +19,7 @@ public class Tile {
     private int size = 0;
     private int [][] board;
     private positional empty;
+    private Tile soluton;
     File BoardFile;
     Scanner setup;
 
@@ -59,6 +60,8 @@ public class Tile {
         }
         setup.close();
 
+        // Create the solution board
+        soluton = new Tile(size);
     }
 
     // Constructor used to create a generic solution board based on the size of the problem board
@@ -81,8 +84,6 @@ public class Tile {
         }
     }
 
-    // Create the solution board
-    private Tile soluton = new Tile(size);
 
     // Returns the position of the empty tile
     private positional getEmpty() {
