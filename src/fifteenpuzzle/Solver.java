@@ -11,6 +11,8 @@ public class Solver {
 	private int boardSize = 0;
 	private int trackedMoves = 0;
 
+
+
 	//TODO Function that checks if the puzzle is solvable
 	private boolean canSolvePuzzle() {
 
@@ -27,13 +29,6 @@ public class Solver {
 
 	//TODO Function that checks that the board is correct
 	private boolean boardCorrect() {
-		// For loop that runs through depending on the size of the puzzle to see if it is correct
-		for(int i = 0; i < (boardSize-1); i++) {
-			//if( != (i+1)) {
-			//	return false;
-			// }
-		}
-		// If no problems are detected during the check
 		return true;
 	}
 
