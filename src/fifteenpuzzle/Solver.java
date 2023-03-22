@@ -8,7 +8,7 @@ import java.util.HashMap;
 public class Solver {
 	//call board to be made
 	//
-	Tile board = new Tile();
+
 
 	public static void main(String[] args) {
 
