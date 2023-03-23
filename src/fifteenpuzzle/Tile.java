@@ -1,6 +1,7 @@
 package fifteenpuzzle;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -21,12 +22,12 @@ public class Tile {
     Scanner setup;
 
     // Constructor creates the Tile board from the file
-    public Tile(String input) throws IOException {
+    public Tile(File input) throws IOException {
         // Initialize variable
         int x = 0;
 
         // Uses scanner to read the board file
-        this.BoardFile = new File(input);
+        this.BoardFile = input;
         this.setup = new Scanner(this.BoardFile);
         String lineIn = this.setup.nextLine();
 
@@ -52,6 +53,11 @@ public class Tile {
             }
             x++;
         }
+
+        if (BoardFile == null){
+            throw new FileNotFoundException("File Not Found Exception: input file could not be found");
+        }
+
         setup.close();
 
         // Create the solution board
