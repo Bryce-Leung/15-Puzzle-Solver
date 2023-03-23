@@ -3,6 +3,7 @@ package fifteenpuzzle;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.lang.Math;
@@ -134,7 +135,16 @@ public class Tile {
 
 
     //TODO Find all possible movements for the board
+    public ArrayList<positional> movementOptions() {
+        // Initialize an arraylist to store the possible movements
+        ArrayList<positional> options = new ArrayList<>();
 
+        // Check all possible directions the empty space can be moved and add all that are considered valid
+
+
+
+        return options;
+    }
 
     // Find the tile position
     public positional findPosition(int item) throws NoSuchElementException {

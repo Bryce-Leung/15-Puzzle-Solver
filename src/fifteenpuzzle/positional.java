@@ -5,7 +5,7 @@ public class positional {
     private int x;
     private int y;
 
-    // Constructor that creates the positional object
+    // Constructor that creates the positional object with inputs
     public positional(int x, int y) {
         this.x = x;
         this.y = y;
