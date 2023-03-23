@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.lang.Math;
@@ -108,10 +109,12 @@ public class Tile {
         }
 
         // Clone empty position
-        empty = currentBoard.empty;
+        empty = currentBoard.getEmpty();
 
         // Perform the movement on the board
-        tileMove(candidate);
+        if(isValid(candidate)) {
+            tileMove(candidate);
+        }
 
         // Create solution board
         solution = new Tile(size);
@@ -194,8 +197,21 @@ public class Tile {
     }
 
 
+    //TODO rewrite this
+
+    public List<positional> allTilePos() {
+        ArrayList<positional> out = new ArrayList<positional>();
+        for(int i=0; i<size; i++) {
+            for(int j=0; j<size; j++) {
+                out.add(new positional(i,j));
+            }
+        }
+        return out;
+    }
+
+
     // Find the tile position
-    public positional findPosition(int item) throws NoSuchElementException {
+    public positional findPosition(int item) {
         // Initialize variable
         positional output = null;
 
@@ -205,15 +221,13 @@ public class Tile {
                 // When the item has been found to position is stored and outputted
                 if(board[x][y] == item) {
                     output = new positional(x,y);
+                    return output;
                 }
             }
         }
 
         // If the item cannot be found on the board
-        if(output == null) {
-            throw new NoSuchElementException("No Such Element Exception: The item that was search for could not be found on the board");
-        }
-        return output;
+        return null;
     }
 
 
@@ -225,7 +239,7 @@ public class Tile {
         // Runs through the board and compares it with the solution board to ensure that they match
         for(int x = 0; x < size; x++) {
             for(int y = 0; y < size; y++) {
-                if(board[x][y] != solution.board[x][y]) {
+                if((board[x][y] >0) && (board[x][y] != solution.board[x][y])) {
                     incorrect++;
                 }
             }
@@ -236,5 +250,29 @@ public class Tile {
             return false;
         }
         return true;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof Tile) {
+            for(positional p: allTilePos()) {
+                if( this.getValue(p) != ((Tile) o).getValue(p)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+
+    @Override
+    public int hashCode() {
+        int out=0;
+        for(positional p: allTilePos()) {
+            out= (out*size*size) + this.getValue(p);
+        }
+        return out;
     }
 }

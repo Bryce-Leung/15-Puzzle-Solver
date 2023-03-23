@@ -10,8 +10,8 @@ package fifteenpuzzle;
 
 public class positional {
     // Initialize public variables
-    private int x;
-    private int y;
+    public int x;
+    public int y;
 
     // Constructor that creates the positional object with inputs
     public positional(int x, int y) {
