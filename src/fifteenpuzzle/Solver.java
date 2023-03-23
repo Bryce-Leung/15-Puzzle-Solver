@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.util.Scanner;
+import java.util.*;
 
 // Author: Peiman Zhiani Asgharzadeh
 // Computing ID: pza42
@@ -30,6 +31,19 @@ public class Solver {
 	Scanner cleanup;
 	Tile puzzle;
 	Tile solved;
+
+	// experimental class for puzzle node eases the HasMap making
+	class PuzzleNode {
+		Tile predecessor;
+		int depth;
+		int score;
+
+		public PuzzleNode(Tile predecessor, int depth, int score) {
+			this.predecessor = predecessor;
+			this.depth = depth;
+			this.score = score;
+		}
+	}
 
 	// Constructor that calls for the board to be made
 	public Solver(File in) {
@@ -68,13 +82,24 @@ public class Solver {
 		//Return the total sum of Manhattan distances for all non-blank tiles
 		return total;
 	}
+
+	public List<Tile> AdjacentNodes(Tile currentBoard){
+		ArrayList<Tile> adjacentNodes = new ArrayList<>();
+		ArrayList<positional> options = currentBoard.movementOptions();
+
+		options.forEach(option-> {
+			Tile newPuzzle = new Tile(currentBoard,option);
+			adjacentNodes.add(newPuzzle);
+		});
+
+		return adjacentNodes;
+	}
 	// enum creating the type for Heuristics in case of wants to switch between different heuristics
 	public enum HeuristicType {
 		NUMBER_MISPLACED_TILES,
 		MANHATTAN_DISTANCE
 		// more add here..
 	}
-
 	// chooses a Heuristic and can make different methods for different Heuristic incase want to make it dynamic
 	public int heuristicCost(HeuristicType heuristicChosen, Tile candidatePuzzle ) {
 		switch (heuristicChosen) {
@@ -88,9 +113,47 @@ public class Solver {
 	}
 
 	// A* algorithm that runs and performs the solving of the puzzle and outputs true if completed and false if it cannot be solved
-	public void AStarAlgorithm() {
+	public List<Tile> AStarAlgorithm(HeuristicType heuristicType) {
 		//TODO maybe output to a global string list or something that track all moves performed so we can use it
+		Map<Tile, PuzzleNode> nodes = new HashMap<>();
+		// this is the custome comparator to use in priority queue, in order to dequeue, the lowest score first.
+		Comparator<Tile> scoreCompare = (a,b) -> nodes.get(a).score - nodes.get(b).score;
+		PriorityQueue<Tile> nodesToCheck = new PriorityQueue<>(10000, scoreCompare);
 
+		// initialize our nodes (given the initial puzzle, and null predecessor, 0 deoth and finding initial heurisitcs)
+		nodes.put(this.puzzle,new PuzzleNode(null,0,heuristicCost(heuristicType,this.puzzle)));
+		nodesToCheck.add(this.puzzle);
+		int totalVisitedNodes = 0;
+		//do the following until the priority queue is empty.
+		while (!nodesToCheck.isEmpty()){
+			Tile candidate = nodesToCheck.remove();
+			// if solution was found then return base on the predecessor making it a path.
+			if (candidate.isSolved()){
+				System.out.printf("the solution was found after visiting %d nodes\n ",totalVisitedNodes);
+				LinkedList<Tile> solutionPath = new LinkedList<>();
+				Tile backTrace = candidate;
+				while (backTrace != null){
+					solutionPath.add(backTrace);
+					backTrace = nodes.get(backTrace).predecessor;
+				}
+				return solutionPath;
+			}
+			// if not get the candidate's adjacent nodes, and calculate their heurestics, and put them in priority queue
+			List<Tile> adjacentNodes = AdjacentNodes(candidate);
+			adjacentNodes.forEach(node ->{
+				if (!nodes.containsKey(node)){
+					int newDepth =nodes.get(candidate).depth + 1;
+					// f(Score) = f(heuristic) + f(currentdepth)
+					int newScore = newDepth + heuristicCost(heuristicType,node);
+					// update the prodecessor, depth and, hscore for this adjacent node.
+					nodes.put(node,new PuzzleNode(candidate, newDepth, newScore));
+					//add the node to the priority queue with its h(score)
+					nodesToCheck.add(node);
+				}
+			});
+
+		}
+		return null;
 	}
 
 
@@ -140,8 +203,8 @@ public class Solver {
 		// Initialize the solver object with the input board file
 		Solver compute = new Solver(input);
 
-		// Perform the A* algorithm to find the solution
-		compute.AStarAlgorithm();
+		// Perform the A* algorithm to find the solution using ManHattan Distance heuristics
+		compute.AStarAlgorithm(HeuristicType.MANHATTAN_DISTANCE);
 
 		// Write the solution to the specified output file
 		compute.writeSolution(output);

@@ -8,12 +8,12 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.lang.Math;
 
-// Author:
-// Computing ID:
-// Student #:
+// Author: Peiman Zhiani Asgharzadeh
+// Computing ID: pza42
+// Student #: 301438914
 
 // Author: Bryce Leung
-// Computing ID:
+// Computing ID: bla135
 // Student #: 301421630
 
 // References:
@@ -77,8 +77,8 @@ public class Tile {
 
     // Constructor used to create a generic solution board based on the size of the problem board
     public Tile(int sized) {
-        size = sized;
         // Initialize variables
+        size = sized;
         int counter = 1;
         board = new int [size][size];
 
@@ -93,6 +93,22 @@ public class Tile {
                 counter++;
             }
         }
+    }
+
+    public Tile(Tile currentBoard, positional candidate) {
+        // Initialize variables
+        size = currentBoard.size;
+        board = new int [size][size];
+
+        // Copy the current board to the new board
+        for(int x = 0; x < size; x++) {
+            for(int y = 0; y < size; y++) {
+                board[x][y] = currentBoard.board[x][y];
+            }
+        }
+
+        // Perform the movement on the board
+        tileMove(candidate);
     }
 
 
