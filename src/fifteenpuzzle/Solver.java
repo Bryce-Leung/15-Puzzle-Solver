@@ -31,6 +31,7 @@ public class Solver {
 	Scanner cleanup;
 	Tile puzzle;
 	Tile solved;
+	LinkedList<Tile> solutionPath;
 
 	// experimental class for puzzle node eases the HasMap making
 	class PuzzleNode {
@@ -113,7 +114,7 @@ public class Solver {
 	}
 
 	// A* algorithm that runs and performs the solving of the puzzle and outputs true if completed and false if it cannot be solved
-	public List<Tile> AStarAlgorithm(HeuristicType heuristicType) {
+	public void AStarAlgorithm(HeuristicType heuristicType) {
 		//TODO maybe output to a global string list or something that track all moves performed so we can use it
 		Map<Tile, PuzzleNode> nodes = new HashMap<>();
 		// this is the custome comparator to use in priority queue, in order to dequeue, the lowest score first.
@@ -130,13 +131,12 @@ public class Solver {
 			// if solution was found then return base on the predecessor making it a path.
 			if (candidate.isSolved()){
 				System.out.printf("the solution was found after visiting %d nodes\n ",totalVisitedNodes);
-				LinkedList<Tile> solutionPath = new LinkedList<>();
+				solutionPath = new LinkedList<>();
 				Tile backTrace = candidate;
 				while (backTrace != null){
 					solutionPath.add(backTrace);
 					backTrace = nodes.get(backTrace).predecessor;
 				}
-				return solutionPath;
 			}
 			// if not get the candidate's adjacent nodes, and calculate their heurestics, and put them in priority queue
 			List<Tile> adjacentNodes = AdjacentNodes(candidate);
@@ -153,7 +153,7 @@ public class Solver {
 			});
 
 		}
-		return null;
+
 	}
 
 
@@ -169,8 +169,9 @@ public class Solver {
 		}
 
 		//TODO add writing logic here once the list of movements when available
-		//while() {
-		// }
+		while(!solutionPath.isEmpty()) {
+			System.out.println(solutionPath.pop());
+		 }
 
 		// Close the output file
 		cleanup.close();
@@ -190,15 +191,18 @@ public class Solver {
 		}
 
 		// Checks if an argument has been passed in by the user
-		if (args.length < 2) {
-			System.out.println("File names are not specified");
-			System.out.println("usage: java " + MethodHandles.lookup().lookupClass().getName() + " input_file output_file");
-			return;
-		}
+		//if (args.length < 2) {
+		//	System.out.println("File names are not specified");
+	//		System.out.println("usage: java " + MethodHandles.lookup().lookupClass().getName() + " input_file output_file");
+	//		return;
+	//	}
 
 		// Set up the File type variables from the arguments provided by the user
-		File input = new File(args[0]);
-		File output = new File(args[1]);
+		//File input = new File(args[0]);
+		//File output = new File(args[1]);
+
+		File input = new File("board1.txt");
+		File output = new File("sol1.txt");
 
 		// Initialize the solver object with the input board file
 		Solver compute = new Solver(input);

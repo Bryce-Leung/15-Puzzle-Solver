@@ -107,8 +107,14 @@ public class Tile {
             }
         }
 
+        // Clone empty position
+        empty = currentBoard.empty;
+
         // Perform the movement on the board
         tileMove(candidate);
+
+        // Create solution board
+        solution = new Tile(size);
     }
 
 
