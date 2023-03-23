@@ -9,7 +9,6 @@ public class Solver {
 	//call board to be made
 	//
 
-
 	public static void main(String[] args) {
 
 		// Prints out the argument size provided

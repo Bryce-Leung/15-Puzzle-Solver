@@ -2,24 +2,20 @@ package fifteenpuzzle;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+
+// References:
+// https://codereview.stackexchange.com/questions/86597/optimizing-manhattan-distance-method-for-n-by-n-puzzles
+//
+
 public class Tile {
-    private class positional {
-        public int x;
-        public int y;
-
-        public positional(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
-
     // Initialize private global variable
     private int size = 0;
     private int [][] board;
     private positional empty;
-    private Tile soluton;
+    private Tile solution;
     File BoardFile;
     Scanner setup;
 
@@ -52,17 +48,15 @@ public class Tile {
                     empty = new positional(x,y);
                     this.board[x][y] = 0;
                 }
-                System.out.println(x);
-                System.out.println(y);
-                System.out.println(board[x][y]);
             }
             x++;
         }
         setup.close();
 
         // Create the solution board
-        soluton = new Tile(size);
+        solution = new Tile(size);
     }
+
 
     // Constructor used to create a generic solution board based on the size of the problem board
     public Tile(int sized) {
@@ -90,12 +84,13 @@ public class Tile {
         return empty;
     }
 
+
     // Returns the value at desired position
     private int getValue(positional location) {
         return board[location.x][location.y];
     }
 
-    /*
+
     // Valid move check
     private boolean isValid(positional candidate) {
         // Check if the x or y location is within the valid range
@@ -104,22 +99,72 @@ public class Tile {
         }
 
         // Check if the candidate movement is within the range of the empty tile
-        if() {
+        if((Math.abs(empty.x - candidate.x) + Math.abs(empty.y - candidate.y)) != 1) {
             return false;
         }
 
+        // If nothing is wrong with its movement then it returns true
         return true;
     }
 
+
     // Move the empty tile to a specified location swapping it with the non empty tile in it's path
-    public void tileMove(positional location) {
+    public void tileMove(positional location) throws IllegalArgumentException{
         // Checks if the proposed location to move is valid
         if(isValid(location) == false) {
-
+            throw new IllegalArgumentException("Illegal Argument Exception: The desired movement is not possible");
         }
 
+        // Place the value into the empty tile of the board
+        board[empty.x][empty.y] = board[location.x][location.y];
+
+        // Move the empty tile to the position the non-empty tile used to be and set that position as the new empty space
+        empty = location;
+        board[location.x][location.y] = 0;
     }
 
-     */
 
+    // Find the tile position
+    public positional findPosition(int item) throws NoSuchElementException {
+        // Initialize variable
+        positional output = null;
+
+        // Loops through all tiles in the board to find the position of the item present
+        for(int x = 0; x < size; x++) {
+            for(int y = 0; y < size; y++) {
+                // When the item has been found to position is stored and outputted
+                if(board[x][y] == item) {
+                    output = new positional(x,y);
+                }
+            }
+        }
+
+        // If the item cannot be found on the board
+        if(output == null) {
+            throw new NoSuchElementException("No Such Element Exception: The item that was search for could not be found on the board");
+        }
+        return output;
+    }
+
+
+    // Checks if the board has been solved
+    public boolean isSolved() {
+        // Initialize variable
+        int incorrect = 0;
+
+        // Runs through the board and compares it with the solution board to ensure that they match
+        for(int x = 0; x < size; x++) {
+            for(int y = 0; y < size; y++) {
+                if(board[x][y] != solution.board[x][y]) {
+                    incorrect++;
+                }
+            }
+        }
+
+        // Checks if the counter for incorrect values has incremented
+        if(incorrect > 0) {
+            return false;
+        }
+        return true;
+    }
 }
