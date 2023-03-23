@@ -96,6 +96,12 @@ public class Tile {
     }
 
 
+    // Returns the size of the
+    public Tile getSolution() {
+        return this.solution;
+    }
+
+
     // Returns the position of the empty tile
     private positional getEmpty() {
         return empty;
@@ -103,7 +109,7 @@ public class Tile {
 
 
     // Returns the value at desired position
-    private int getValue(positional location) {
+    public int getValue(positional location) {
         return board[location.getX()][location.getY()];
     }
 
@@ -150,17 +156,17 @@ public class Tile {
         int y;
 
         // Check all possible directions the empty space can be moved and add all that are considered valid
-        //for() {
-            //for() {
-                x = empty.getX();
-                y = empty.getY();
+        for(int shiftx = -1; shiftx <= 1 ; shiftx++) {
+            for(int shifty = -1; shifty <= 1; shifty++) {
+                x = empty.getX() + shiftx;
+                y = empty.getY() + shifty;
                 candidate = new positional(x,y);
                 // Checks if the movement would be valid before adding it to the list
                 if(isValid(candidate)) {
                     options.add(candidate);
                 }
-            //}
-        //}
+            }
+        }
 
         return options;
     }

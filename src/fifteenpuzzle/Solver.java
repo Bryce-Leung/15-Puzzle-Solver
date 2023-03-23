@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.util.Scanner;
 
-// Author:
-// Computing ID:
-// Student #:
+// Author: Peiman Zhiani Asgharzadeh
+// Computing ID: pza42
+// Student #: 301438914
 
 // Author: Bryce Leung
 // Computing ID:
@@ -28,35 +28,69 @@ public class Solver {
 	// Initialize private global variables
 	File solutionFile;
 	Scanner cleanup;
-
-
+	Tile puzzle;
+	Tile solved;
 
 	// Constructor that calls for the board to be made
 	public Solver(File in) {
 		// Passes the file to the Tile constructor to create the board that will be manipulated
 		try {
-			Tile puzzle = new Tile(in);
+			this.puzzle = new Tile(in);
+			this.solved = puzzle.getSolution();
 		}
 		// If the board file given could not be found
 		catch (Exception e) {
 			System.out.println(in + "could not be read" + e);
 			e.printStackTrace();
 		}
+
 	}
 
 	//Add more function here as needed
 
 	// Manhattan heuristic calculation
 	//TODO add what must bee needed it is set as private as it will be called within the AStarAlgorithm
-	private int ManhattanHeuristic() {
+	private int ManhattanHeuristicDistance(Tile candidatePuzzle) {
+		int total = 0;
+		// for each tile position in all tile positions
+		for (positional currentPosition : candidatePuzzle.movementOptions()){
+			//get the val of the tile at current position
+			int currentValue = candidatePuzzle.getValue(currentPosition);
 
-		return 0;
+			if (currentValue > 0) {
+				positional targetPosition = solved.findPosition(currentValue);// Get the target position of the current tile in the solved state
+				//Calculate the Vertical and Horizontal distance between the current position and the target position
+				int horizontalDistance = Math.abs(targetPosition.getY() - currentPosition.getX());
+				int verticalDistance = Math.abs(targetPosition.getX() - currentPosition.getY());
+				total = total + verticalDistance + horizontalDistance;
+			}
+		}
+		//Return the total sum of Manhattan distances for all non-blank tiles
+		return total;
+	}
+	// enum creating the type for Heuristics in case of wants to switch between different heuristics
+	public enum HeuristicType {
+		NUMBER_MISPLACED_TILES,
+		MANHATTAN_DISTANCE
+		// more add here..
 	}
 
+	// chooses a Heuristic and can make different methods for different Heuristic incase want to make it dynamic
+	public int heuristicCost(HeuristicType heuristicChosen, Tile candidatePuzzle ) {
+		switch (heuristicChosen) {
+			case MANHATTAN_DISTANCE:
+				return ManhattanHeuristicDistance(candidatePuzzle);
+//			case NUMBER_MISPLACED_TILES:
+//				return numberMisplacedTiles(candidatePuzzle);
+			default:
+				throw new IllegalArgumentException("Invalid heuristic type");
+		}
+	}
 
 	// A* algorithm that runs and performs the solving of the puzzle and outputs true if completed and false if it cannot be solved
 	public void AStarAlgorithm() {
 		//TODO maybe output to a global string list or something that track all moves performed so we can use it
+
 	}
 
 
@@ -83,7 +117,8 @@ public class Solver {
 	}
 
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String [] args) throws IOException {
+//		String [] args = {'board1.txt','board1out.txt'};
 
 		// Prints out the number of arguments provided
 		System.out.println("number of arguments: " + args.length);
@@ -111,4 +146,5 @@ public class Solver {
 		// Write the solution to the specified output file
 		compute.writeSolution(output);
 	}
+
 }
