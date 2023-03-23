@@ -54,10 +54,12 @@ public class Tile {
             x++;
         }
 
+        // Outputs an error the file could not be found
         if (BoardFile == null){
             throw new FileNotFoundException("File Not Found Exception: input file could not be found");
         }
 
+        // Close the file
         setup.close();
 
         // Create the solution board
@@ -129,6 +131,9 @@ public class Tile {
         empty = location;
         board[location.getX()][location.getY()] = 0;
     }
+
+
+    //TODO Find all possible movements for the board
 
 
     // Find the tile position

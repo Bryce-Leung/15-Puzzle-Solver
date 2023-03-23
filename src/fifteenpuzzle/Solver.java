@@ -7,6 +7,13 @@ import java.lang.invoke.MethodHandles;
 import java.util.HashMap;
 import java.util.Scanner;
 
+//TODO check if we are supposed to write to an output file or if we are supposed to create the output file
+
+// References:
+//https://www.baeldung.com/java-write-to-file
+//https://www.youtube.com/watch?v=g0phuZDM6Mg
+//https://en.wikipedia.org/wiki/A*_search_algorithm
+//
 
 public class Solver {
 	// Initialize private global variables
@@ -30,10 +37,16 @@ public class Solver {
 
 	//Add more function here as needed
 
+	// Manhattan heuristic calculation
+	//TODO add what must bee needed it is set as private as it will be called within the AStarAlgorithm
+	private int ManhattanHeuristic() {
+		return 0;
+	}
+
 
 	// A* algorithm that runs and performs the solving of the puzzle and outputs true if completed and false if it cannot be solved
 	public void AStarAlgorithm() {
-		//TODO maybe output to a global list that track all moves performed so we can use it
+		//TODO maybe output to a global string list or something that track all moves performed so we can use it
 	}
 
 
@@ -44,15 +57,24 @@ public class Solver {
 		this.cleanup = new Scanner(this.solutionFile);
 		String lineIn = this.cleanup.nextLine();
 
+		// Outputs an error the file could not be found
 		if (solutionFile == null){
 			throw new FileNotFoundException("File Not Found Exception: Output file could not be found");
 		}
+
+		//TODO add writing logic here once the list of movements are available
+
+		// Close the output file
+		cleanup.close();
+
+		// Output message after completely filling out file
+		System.out.println("Puzzle has been solved solution has been placed in " + out);
 	}
 
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 
-		// Prints out the argument size provided
+		// Prints out the number of arguments provided
 		System.out.println("number of arguments: " + args.length);
 		for (int i = 0; i < args.length; i++) {
 			System.out.println(args[i]);
@@ -65,17 +87,17 @@ public class Solver {
 			return;
 		}
 
-
-		//TODO
+		// Setup the File type variables from the arguments provided by the user
 		File input = new File(args[0]);
 		File output = new File(args[1]);
 
-		// Utilize constructor to add the
+		// Initialize the solver object with the input board file
 		Solver compute = new Solver(input);
 
-
+		// Perform the A* algorithm to find the solution
 		compute.AStarAlgorithm();
+
+		// Write the solution to the specified output file
 		compute.writeSolution(output);
-		System.out.println("Puzzle has been solved solution has been placed in " + output);
 	}
 }
