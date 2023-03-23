@@ -4,8 +4,16 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
-import java.util.HashMap;
 import java.util.Scanner;
+
+// Author:
+// Computing ID:
+// Student #:
+
+// Author: Bryce Leung
+// Computing ID:
+// Student #: 301421630
+
 
 //TODO check if we are supposed to write to an output file or if we are supposed to create the output file
 
@@ -13,6 +21,7 @@ import java.util.Scanner;
 //https://www.baeldung.com/java-write-to-file
 //https://www.youtube.com/watch?v=g0phuZDM6Mg
 //https://en.wikipedia.org/wiki/A*_search_algorithm
+//https://www.geeksforgeeks.org/sum-manhattan-distances-pairs-points/
 //
 
 public class Solver {
@@ -40,6 +49,7 @@ public class Solver {
 	// Manhattan heuristic calculation
 	//TODO add what must bee needed it is set as private as it will be called within the AStarAlgorithm
 	private int ManhattanHeuristic() {
+
 		return 0;
 	}
 
@@ -55,14 +65,15 @@ public class Solver {
 		// Uses scanner to read the board file
 		this.solutionFile = out;
 		this.cleanup = new Scanner(this.solutionFile);
-		String lineIn = this.cleanup.nextLine();
 
 		// Outputs an error the file could not be found
 		if (solutionFile == null){
 			throw new FileNotFoundException("File Not Found Exception: Output file could not be found");
 		}
 
-		//TODO add writing logic here once the list of movements are available
+		//TODO add writing logic here once the list of movements when available
+		//while() {
+		// }
 
 		// Close the output file
 		cleanup.close();
@@ -87,7 +98,7 @@ public class Solver {
 			return;
 		}
 
-		// Setup the File type variables from the arguments provided by the user
+		// Set up the File type variables from the arguments provided by the user
 		File input = new File(args[0]);
 		File output = new File(args[1]);
 

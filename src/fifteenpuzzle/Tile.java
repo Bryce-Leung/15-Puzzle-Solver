@@ -8,6 +8,13 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.lang.Math;
 
+// Author:
+// Computing ID:
+// Student #:
+
+// Author: Bryce Leung
+// Computing ID:
+// Student #: 301421630
 
 // References:
 // https://codereview.stackexchange.com/questions/86597/optimizing-manhattan-distance-method-for-n-by-n-puzzles
@@ -121,7 +128,7 @@ public class Tile {
     // Move the empty tile to a specified location swapping it with the non-empty tile in its path
     public void tileMove(positional location) throws IllegalArgumentException{
         // Checks if the proposed location to move is valid
-        if(isValid(location) == false) {
+        if(!isValid(location)) {
             throw new IllegalArgumentException("Illegal Argument Exception: The desired movement is not possible");
         }
 
@@ -134,17 +141,30 @@ public class Tile {
     }
 
 
-    //TODO Find all possible movements for the board
+    //TODO Find all possible movements for the board for the algorithm to use
     public ArrayList<positional> movementOptions() {
-        // Initialize an arraylist to store the possible movements
+        // Initialize variables and an arraylist to store the possible movements
         ArrayList<positional> options = new ArrayList<>();
+        positional candidate;
+        int x;
+        int y;
 
         // Check all possible directions the empty space can be moved and add all that are considered valid
-
-
+        //for() {
+            //for() {
+                x = empty.getX();
+                y = empty.getY();
+                candidate = new positional(x,y);
+                // Checks if the movement would be valid before adding it to the list
+                if(isValid(candidate)) {
+                    options.add(candidate);
+                }
+            //}
+        //}
 
         return options;
     }
+
 
     // Find the tile position
     public positional findPosition(int item) throws NoSuchElementException {

@@ -1,5 +1,13 @@
 package fifteenpuzzle;
 
+// Author:
+// Computing ID:
+// Student #:
+
+// Author: Bryce Leung
+// Computing ID:
+// Student #: 301421630
+
 public class positional {
     // Initialize public variables
     private int x;
@@ -11,6 +19,7 @@ public class positional {
         this.y = y;
     }
 
+
     // Getter functions
     public int getX() {
         return this.x;
@@ -19,6 +28,7 @@ public class positional {
     public int getY() {
         return this.y;
     }
+
 
     // Setter functions
     public void setX(int x) {
