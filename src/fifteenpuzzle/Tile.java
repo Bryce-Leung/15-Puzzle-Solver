@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.lang.Math;
 
 
 // References:
@@ -12,7 +13,7 @@ import java.util.Scanner;
 
 public class Tile {
     // Initialize private global variable
-    private int size = 0;
+    private int size;
     private int [][] board;
     private positional empty;
     private Tile solution;
@@ -67,7 +68,7 @@ public class Tile {
 
         // Insert the empty space into the board
         empty = new positional((size-1), (size-1));
-        board[empty.x][empty.y] = 0;
+        board[empty.getX()][empty.getY()] = 0;
 
         // Loop through each row fills the board
         for (int x = 0; x < size; x++) {
@@ -87,19 +88,19 @@ public class Tile {
 
     // Returns the value at desired position
     private int getValue(positional location) {
-        return board[location.x][location.y];
+        return board[location.getX()][location.getY()];
     }
 
 
     // Valid move check
     private boolean isValid(positional candidate) {
         // Check if the x or y location is within the valid range
-        if((candidate.x < 0||candidate.x >= size) || (candidate.y < 0||candidate.y >= size)) {
+        if((candidate.getX() < 0||candidate.getX() >= size) || (candidate.getY() < 0||candidate.getY() >= size)) {
             return false;
         }
 
         // Check if the candidate movement is within the range of the empty tile
-        if((Math.abs(empty.x - candidate.x) + Math.abs(empty.y - candidate.y)) != 1) {
+        if((Math.abs(empty.getX() - candidate.getX()) + Math.abs(empty.getY() - candidate.getY())) != 1) {
             return false;
         }
 
@@ -108,7 +109,7 @@ public class Tile {
     }
 
 
-    // Move the empty tile to a specified location swapping it with the non empty tile in it's path
+    // Move the empty tile to a specified location swapping it with the non-empty tile in its path
     public void tileMove(positional location) throws IllegalArgumentException{
         // Checks if the proposed location to move is valid
         if(isValid(location) == false) {
@@ -116,11 +117,11 @@ public class Tile {
         }
 
         // Place the value into the empty tile of the board
-        board[empty.x][empty.y] = board[location.x][location.y];
+        board[empty.getX()][empty.getY()] = board[location.getX()][location.getY()];
 
         // Move the empty tile to the position the non-empty tile used to be and set that position as the new empty space
         empty = location;
-        board[location.x][location.y] = 0;
+        board[location.getX()][location.getY()] = 0;
     }
 
 
