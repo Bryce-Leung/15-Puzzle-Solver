@@ -32,6 +32,7 @@ public class Solver {
 	Tile puzzle;
 	Tile solved;
 	Tile candidate;
+	LinkedList<Tile> solutionPath;
 
 	// experimental class for puzzle node eases the HasMap making
 	class PuzzleNode {
@@ -118,7 +119,7 @@ public class Solver {
 
 
 	// A* algorithm that runs and performs the solving of the puzzle and outputs true if completed and false if it cannot be solved
-	public LinkedList<Tile> AStarAlgorithm(HeuristicType heuristicType) {
+	public void AStarAlgorithm(HeuristicType heuristicType) {
 		//TODO maybe output to a global string list or something that track all moves performed so we can use it
 		Map<Tile, PuzzleNode> nodes = new HashMap<>();
 		// this is the custome comparator to use in priority queue, in order to dequeue, the lowest score first.
@@ -137,13 +138,12 @@ public class Solver {
 
 			if (candidate.isSolved()){
 				System.out.printf("the solution was found after visiting %d nodes\n ",totalVisitedNodes);
-				LinkedList<Tile> solutionPath = new LinkedList<>();
+				solutionPath = new LinkedList<>();
 				Tile backTrace = candidate;
 				while (backTrace != null){
 					solutionPath.add(backTrace);
 					backTrace = nodes.get(backTrace).predecessor;
 				}
-				return solutionPath;
 			}
 			// if not get the candidate's adjacent nodes, and calculate their heurestics, and put them in priority queue
 			List<Tile> adjacentNodes = AdjacentNodes(candidate);
@@ -161,8 +161,41 @@ public class Solver {
 			});
 
 		}
-		return null;
 	}
+
+
+	// Obtains information for movement base off of list provided
+	private ArrayList<String> ansFormat() {
+		// Initialize list and variables
+		ArrayList<String> outputs = new ArrayList<>();
+		Tile current;
+		Tile next;
+		positional newEmptyPosition;
+		int movedValue;
+
+		current = solutionPath.removeLast();
+
+		while(!solutionPath.isEmpty()) {
+			next = solutionPath.removeLast();
+
+			// Finds the value being moved
+			newEmptyPosition = next.findPosition(0);
+			movedValue = current.getValue(newEmptyPosition);
+
+			// Figure out the direction taken
+
+
+			current = next;
+		}
+
+		positional test = current.findPosition(0);
+		System.out.println(test.getX() + "," + test.getY());
+
+
+
+		return outputs;
+	}
+
 
 
 	// Prints out the solution to the output file
@@ -170,6 +203,7 @@ public class Solver {
 		// Uses scanner to read the board file
 		this.solutionFile = out;
 		this.cleanup = new Scanner(this.solutionFile);
+		ArrayList<String> outputs;
 
 		// Outputs an error the file could not be found
 		if (solutionFile == null){
@@ -177,6 +211,8 @@ public class Solver {
 		}
 
 		//TODO add writing logic here once the list of movements when available
+		outputs = ansFormat();
+
 
 		// Close the output file
 		cleanup.close();
@@ -196,18 +232,18 @@ public class Solver {
 		}
 
 		// Checks if an argument has been passed in by the user
-		if (args.length < 2) {
-			System.out.println("File names are not specified");
-				System.out.println("usage: java " + MethodHandles.lookup().lookupClass().getName() + " input_file output_file");
-				return;
-			}
+		//if (args.length < 2) {
+		//	System.out.println("File names are not specified");
+		//		System.out.println("usage: java " + MethodHandles.lookup().lookupClass().getName() + " input_file output_file");
+		//		return;
+		//	}
 
 		// Set up the File type variables from the arguments provided by the user
 		//File input = new File(args[0]);
 		//File output = new File(args[1]);
 
-		File input = new File("board2.txt");
-		File output = new File("sol2.txt");
+		File input = new File("board1.txt");
+		File output = new File("sol1.txt");
 
 		// Initialize the solver object with the input board file
 		Solver compute = new Solver(input);
@@ -216,7 +252,7 @@ public class Solver {
 		compute.AStarAlgorithm(HeuristicType.MANHATTAN_DISTANCE);
 
 		// Write the solution to the specified output file
-		//compute.writeSolution(output);
+		compute.writeSolution(output);
 	}
 
 }
