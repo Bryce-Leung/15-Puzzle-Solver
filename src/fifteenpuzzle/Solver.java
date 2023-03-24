@@ -16,7 +16,7 @@ import java.nio.file.StandardOpenOption;
 // Student #: 301438914
 
 // Author: Bryce Leung
-// Computing ID:
+// Computing ID: bla135
 // Student #: 301421630
 
 
@@ -271,7 +271,7 @@ public class Solver {
 		//File input = new File(args[0]);
 		//File output = new File(args[1]);
 
-		File input = new File("board1.txt");
+		File input = new File("board2.txt");
 //		File output = new File("sol2.txt");
 
 		// Initialize the solver object with the input board file
@@ -279,7 +279,7 @@ public class Solver {
 
 		// Perform the A* algorithm to find the solution using ManHattan Distance heuristics
 		if(compute.AStarAlgorithm(HeuristicType.MANHATTAN_DISTANCE)) {
-			String filePath = "../exampleSol1.txt";
+			String filePath = "sol1.txt";
 			// Write the solution to the specified output file
 			List<String> output = compute.ansFormat();
 			compute.writeSolution(output,filePath);

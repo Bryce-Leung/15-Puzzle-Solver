@@ -1,11 +1,11 @@
 package fifteenpuzzle;
 
-// Author:
-// Computing ID:
-// Student #:
+// Author: Peiman Zhiani Asgharzadeh
+// Computing ID: pza42
+// Student #: 301438914
 
 // Author: Bryce Leung
-// Computing ID:
+// Computing ID: bla135
 // Student #: 301421630
 
 public class positional {
