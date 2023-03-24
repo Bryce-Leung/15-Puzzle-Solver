@@ -193,15 +193,15 @@ public class Solver {
 			// Figure out the direction taken
 			valueNewPosition = next.findPosition(movedValue);
 			// Move right
-			if((valueNewPosition.getY() > newEmptyPosition.getY())) {
+			if((valueNewPosition.getX() > newEmptyPosition.getX())) {
 				direction = 'R';
 			}
 			// Move left
-			else if((valueNewPosition.getY() < newEmptyPosition.getY())) {
+			else if((valueNewPosition.getX() < newEmptyPosition.getX())) {
 				direction = 'L';
 			}
 			// Move up
-			else if((valueNewPosition.getX() < newEmptyPosition.getX())) {
+			else if((valueNewPosition.getY() < newEmptyPosition.getY())) {
 				direction = 'U';
 			}
 			// Move down
@@ -271,7 +271,7 @@ public class Solver {
 		//File input = new File(args[0]);
 		//File output = new File(args[1]);
 
-		File input = new File("board2.txt");
+		File input = new File("board1.txt");
 //		File output = new File("sol2.txt");
 
 		// Initialize the solver object with the input board file

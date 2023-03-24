@@ -14,7 +14,7 @@ public class positional {
     public int y;
 
     // Constructor that creates the positional object with inputs
-    public positional(int x, int y) {
+    public positional(int y, int x) {
         this.x = x;
         this.y = y;
     }
@@ -27,15 +27,5 @@ public class positional {
 
     public int getY() {
         return this.y;
-    }
-
-
-    // Setter functions
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
     }
 }
