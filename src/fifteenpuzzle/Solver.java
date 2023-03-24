@@ -6,6 +6,10 @@ import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.util.Scanner;
 import java.util.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
 // Author: Peiman Zhiani Asgharzadeh
 // Computing ID: pza42
@@ -119,7 +123,7 @@ public class Solver {
 
 
 	// A* algorithm that runs and performs the solving of the puzzle and outputs true if completed and false if it cannot be solved
-	public void AStarAlgorithm(HeuristicType heuristicType) {
+	public boolean AStarAlgorithm(HeuristicType heuristicType) {
 		//TODO maybe output to a global string list or something that track all moves performed so we can use it
 		Map<Tile, PuzzleNode> nodes = new HashMap<>();
 		// this is the custome comparator to use in priority queue, in order to dequeue, the lowest score first.
@@ -144,6 +148,7 @@ public class Solver {
 					solutionPath.add(backTrace);
 					backTrace = nodes.get(backTrace).predecessor;
 				}
+				return true;
 			}
 			// if not get the candidate's adjacent nodes, and calculate their heurestics, and put them in priority queue
 			List<Tile> adjacentNodes = AdjacentNodes(candidate);
@@ -161,6 +166,7 @@ public class Solver {
 			});
 
 		}
+		return false;
 	}
 
 
@@ -171,6 +177,8 @@ public class Solver {
 		Tile current;
 		Tile next;
 		positional newEmptyPosition;
+		positional valueNewPosition;
+		char direction = 'A';
 		int movedValue;
 
 		current = solutionPath.removeLast();
@@ -183,15 +191,30 @@ public class Solver {
 			movedValue = current.getValue(newEmptyPosition);
 
 			// Figure out the direction taken
+			valueNewPosition = next.findPosition(movedValue);
+			// Move right
+			if((valueNewPosition.getY() > newEmptyPosition.getY())) {
+				direction = 'R';
+			}
+			// Move left
+			else if((valueNewPosition.getY() < newEmptyPosition.getY())) {
+				direction = 'L';
+			}
+			// Move up
+			else if((valueNewPosition.getX() < newEmptyPosition.getX())) {
+				direction = 'U';
+			}
+			// Move down
+			else {
+				direction = 'D';
+			}
 
+			// place the instruction into the string array
+			String in = movedValue + " " + direction;
+			outputs.add(in);
 
 			current = next;
 		}
-
-		positional test = current.findPosition(0);
-		System.out.println(test.getX() + "," + test.getY());
-
-
 
 		return outputs;
 	}
@@ -199,31 +222,37 @@ public class Solver {
 
 
 	// Prints out the solution to the output file
-	public void writeSolution(File out) throws IOException {
-		// Uses scanner to read the board file
-		this.solutionFile = out;
-		this.cleanup = new Scanner(this.solutionFile);
-		ArrayList<String> outputs;
+	public void writeSolution(List<String> outputSolution, String filepath) throws IOException {
 
-		// Outputs an error the file could not be found
-		if (solutionFile == null){
-			throw new FileNotFoundException("File Not Found Exception: Output file could not be found");
+		Path path = Paths.get(filepath);
+
+		try {
+			// Create a new file if it doesn't exist, otherwise open the existing file for writing
+			if (!Files.exists(path)) {
+				Files.createFile(path);
+			}
+
+			// Write the lines to the file, appending the content if the file exists
+			Files.write(path, outputSolution, StandardOpenOption.APPEND);
+			System.out.println("Lines written to file: " + filepath);
+		} catch (IOException e) {
+			System.err.println("Error writing to file: " + e.getMessage());
 		}
 
-		//TODO add writing logic here once the list of movements when available
-		outputs = ansFormat();
 
-
-		// Close the output file
-		cleanup.close();
-
-		// Output message after completely filling out file
-		System.out.println("Puzzle has been solved solution has been placed in " + out);
+//
+//		//TODO add writing logic here once the list of movements when available
+////		outputs = ansFormat();
+//
+//		// Close the output file
+//		cleanup.close();
+//
+//		// Output message after completely filling out file
+//		System.out.println("Puzzle has been solved solution has been placed in " + out);
 	}
 
 
 	public static void main(String [] args) throws IOException {
-//		String [] args = {'board1.txt','board1out.txt'};
 
 		// Prints out the number of arguments provided
 		System.out.println("number of arguments: " + args.length);
@@ -243,16 +272,18 @@ public class Solver {
 		//File output = new File(args[1]);
 
 		File input = new File("board1.txt");
-		File output = new File("sol1.txt");
+//		File output = new File("sol2.txt");
 
 		// Initialize the solver object with the input board file
 		Solver compute = new Solver(input);
 
 		// Perform the A* algorithm to find the solution using ManHattan Distance heuristics
-		compute.AStarAlgorithm(HeuristicType.MANHATTAN_DISTANCE);
-
-		// Write the solution to the specified output file
-		compute.writeSolution(output);
+		if(compute.AStarAlgorithm(HeuristicType.MANHATTAN_DISTANCE)) {
+			String filePath = "../exampleSol1.txt";
+			// Write the solution to the specified output file
+			List<String> output = compute.ansFormat();
+			compute.writeSolution(output,filePath);
+		}
 	}
 
 }
