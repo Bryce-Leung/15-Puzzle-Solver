@@ -222,19 +222,28 @@ public class Solver {
 
 
 	// Prints out the solution to the output file
-	public void writeSolution(List<String> outputSolution, String filepath) throws IOException {
+	public void writeSolution(List<String> outputSolution, String fileName, String folder) throws IOException {
 
-		Path path = Paths.get(filepath);
+		// finds the path of the given folder
+		Path folderPath = Paths.get(folder);
+
+		// this checks if the folder doesn't exist, creates the folder
+		if (!Files.exists(folderPath)) {
+			Files.createDirectories(folderPath);
+		}
+
+		// Create the full path for the file inside the folder
+		Path fullPath = folderPath.resolve(fileName);
 
 		try {
 			// Create a new file if it doesn't exist, otherwise open the existing file for writing
-			if (!Files.exists(path)) {
-				Files.createFile(path);
+			if (!Files.exists(fullPath)) {
+				Files.createFile(fullPath);
 			}
 
 			// Write the lines to the file, overrides the previous writing!
-			Files.write(path, outputSolution);
-			System.out.println("Lines written to file: " + filepath);
+			Files.write(fullPath, outputSolution);
+			System.out.println("the solution written to file: " + fullPath);
 		} catch (IOException e) {
 			System.err.println("Error writing to file: " + e.getMessage());
 		}
@@ -246,9 +255,9 @@ public class Solver {
 
 		// Prints out the number of arguments provided
 		System.out.println("number of arguments: " + args.length);
-		for (int i = 0; i < args.length; i++) {
-			System.out.println(args[i]);
-		}
+//		for (int i = 0; i < args.length; i++) {
+//			System.out.println(args[i]);
+//		}
 
 		// Checks if an argument has been passed in by the user
 		//if (args.length < 2) {
@@ -261,8 +270,15 @@ public class Solver {
 		//File input = new File(args[0]);
 		//File output = new File(args[1]);
 
-		File input = new File("board2.txt");
-//		File output = new File("sol2.txt");
+
+		//assuming 3 files are given fake args
+		String [] argTemp = new String[3];
+		argTemp[0] = "board2.txt"; // given board
+		argTemp[1] = "solution2.txt"; // given Writing File name
+		argTemp[2] = "allSolutions"; // given Folder to put the file in
+
+		File input = new File(argTemp[0]);
+
 
 		// Initialize the solver object with the input board file
 		Solver compute = new Solver(input);
@@ -270,11 +286,12 @@ public class Solver {
 		// Perform the A* algorithm to find the solution using ManHattan Distance heuristics
 		if(compute.AStarAlgorithm(HeuristicType.MANHATTAN_DISTANCE)) {
 			//this is the filepath name it can be changed
-			String filePath = "sol4.txt";
 
+			String fileName = argTemp[1];
+			String folderName = argTemp[2];
 			// Write the solution to the specified output file
 			List<String> output = compute.ansFormat();
-			compute.writeSolution(output,filePath);
+			compute.writeSolution(output,fileName,folderName);
 		}
 	}
 
