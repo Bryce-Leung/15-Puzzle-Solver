@@ -232,23 +232,13 @@ public class Solver {
 				Files.createFile(path);
 			}
 
-			// Write the lines to the file, appending the content if the file exists
-			Files.write(path, outputSolution, StandardOpenOption.APPEND);
+			// Write the lines to the file, overrides the previous writing!
+			Files.write(path, outputSolution);
 			System.out.println("Lines written to file: " + filepath);
 		} catch (IOException e) {
 			System.err.println("Error writing to file: " + e.getMessage());
 		}
 
-
-//
-//		//TODO add writing logic here once the list of movements when available
-////		outputs = ansFormat();
-//
-//		// Close the output file
-//		cleanup.close();
-//
-//		// Output message after completely filling out file
-//		System.out.println("Puzzle has been solved solution has been placed in " + out);
 	}
 
 
@@ -271,7 +261,7 @@ public class Solver {
 		//File input = new File(args[0]);
 		//File output = new File(args[1]);
 
-		File input = new File("board1.txt");
+		File input = new File("board2.txt");
 //		File output = new File("sol2.txt");
 
 		// Initialize the solver object with the input board file
@@ -279,7 +269,9 @@ public class Solver {
 
 		// Perform the A* algorithm to find the solution using ManHattan Distance heuristics
 		if(compute.AStarAlgorithm(HeuristicType.MANHATTAN_DISTANCE)) {
-			String filePath = "sol1.txt";
+			//this is the filepath name it can be changed
+			String filePath = "sol4.txt";
+
 			// Write the solution to the specified output file
 			List<String> output = compute.ansFormat();
 			compute.writeSolution(output,filePath);
