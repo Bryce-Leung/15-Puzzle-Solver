@@ -8,9 +8,12 @@ public class BoardGen {
 		File f = new File("board1.txt");
 		FileWriter fw = new FileWriter(f);
 		fw.write("3\n");
-		fw.write(" 5  1  2\n");
-		fw.write(" 8     3\n");
-		fw.write(" 4  6  7\n");
+		fw.write(" 8  1  2\n");
+		fw.write("    4  3\n");
+		fw.write(" 7  6  5\n");
+		//fw.write(" 5  1  2\n");
+		//fw.write(" 8     3\n");
+		//fw.write(" 4  6  7\n");
 		fw.close();
 
 		f = new File("sol1.txt");
