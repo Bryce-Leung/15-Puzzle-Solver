@@ -273,7 +273,7 @@ public class Solver {
 
 		//assuming 3 files are given fake args
 		String [] argTemp = new String[3];
-		argTemp[0] = "board1.txt"; // given board
+		argTemp[0] = "board2.txt"; // given board
 		argTemp[1] = "solution1.txt"; // given Writing File name
 		argTemp[2] = "allSolutions"; // given Folder to put the file in
 

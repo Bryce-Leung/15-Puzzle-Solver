@@ -71,15 +71,6 @@ public class Tile {
         // Close the file
         setup.close();
 
-        // Check solvable
-        if(!isSolvable()) {
-            //TODO add error out that can't be solved
-            System.out.println("Can't solve");
-        }
-        else {
-            System.out.println("Solvable");
-        }
-
         // Create the solution board
         solution = new Tile(size);
     }
@@ -217,54 +208,6 @@ public class Tile {
             }
         }
         return out;
-    }
-
-
-    //TODO add Solvability Check
-    // Checks if the board is solvable
-    public boolean isSolvable() {
-        // Initialize variables
-        int[] buffer = new int[(size*size)];
-        int inversionCounter = 0;
-        int counterPosition = 0;
-
-        // Place the board into a singular array
-        for (int y = 0; y < size; y++) {
-            for (int x = 0; x < size; x++) {
-                buffer[counterPosition] = board[y][x];
-                counterPosition++;
-            }
-        }
-
-        // Checks if the board size is even or odd
-        if(size % 2 != 0) { // Odd board
-            // Nested for loop to count all inversion on the board
-            for(int i = 0; i < buffer.length; i++){
-                if((buffer[i] > i) && (buffer[i] != 0))
-                {
-                    for(int j = i+1; j < buffer.length; j++) {
-                        if(buffer[i] > buffer[j] && (buffer[j] != 0)) {
-                            inversionCounter++;
-                        }
-                    }
-                }
-                System.out.println(buffer[i]);
-            }
-
-            // Checks the inversion count to be even
-            if(inversionCounter % 2 == 0){
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
-        else { // Even board
-            //for(int i = 0; i < buffer.length; i++){
-            //    System.out.println(buffer[i]);
-            //}
-            return false;
-        }
     }
 
 
