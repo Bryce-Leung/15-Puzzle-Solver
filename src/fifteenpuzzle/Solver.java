@@ -66,7 +66,32 @@ public class Solver {
 
 	}
 
-	//Add more function here as needed
+	//TODO Add more function here as needed
+
+	// Hamming heuristic calculation
+	private int HammingHeuristicDistance(Tile candidatePuzzle) {
+		// Initialize variables
+		int rows = candidatePuzzle.getSize();
+		int columns = candidatePuzzle.getSize();
+		int total = 0;
+
+		for (positional currentPosition : candidatePuzzle.allTilePos()){
+			//get the val of the tile at current position
+			int currentValue = candidatePuzzle.getValue(currentPosition);
+
+			if (currentValue > 0) {
+				positional targetPosition = solved.findPosition(currentValue);// Get the target position of the current tile in the solved state
+				//Calculate the Vertical and Horizontal distance between the current position and the target position
+				if(targetPosition != currentPosition) {
+					total++;
+				}
+			}
+
+			}
+
+		return total;
+	}
+
 
 	// Manhattan heuristic calculation
 	//TODO add what must bee needed it is set as private as it will be called within the AStarAlgorithm
@@ -91,27 +116,6 @@ public class Solver {
 	}
 
 
-	// Hamming heuristic calculation
-	private int HammingHeuristicDistance(Tile candidatePuzzle) {
-		// Initialize variables
-		int rows = candidatePuzzle.getSize();
-		int columns = candidatePuzzle.getSize();
-		int total = 0;
-
-		for (positional currentPosition : candidatePuzzle.allTilePos()){
-			//get the val of the tile at current position
-			int currentValue = candidatePuzzle.getValue(currentPosition);
-
-			if (currentValue > 0) {
-				positional targetPosition = solved.findPosition(currentValue);// Get the target position of the current tile in the solved state
-				//Calculate the Vertical and Horizontal distance between the current position and the target position
-				if(targetPosition != currentPosition) {
-					total++;
-				}
-			}
-		}
-		return total;
-	}
 
 	public List<Tile> AdjacentNodes(Tile currentBoard){
 		ArrayList<Tile> adjacentNodes = new ArrayList<>();
@@ -130,8 +134,8 @@ public class Solver {
 	public enum HeuristicType {
 		NUMBER_MISPLACED_TILES,
 		MANHATTAN_DISTANCE,
-
 		HAMMING_DISTANCE,
+
 		// more add here..
 	}
 	// chooses a Heuristic and can make different methods for different Heuristic incase want to make it dynamic
@@ -139,10 +143,10 @@ public class Solver {
 		switch (heuristicChosen) {
 			case MANHATTAN_DISTANCE:
 				return ManhattanHeuristicDistance(candidatePuzzle);
-//			case NUMBER_MISPLACED_TILES:
-//				return numberMisplacedTiles(candidatePuzzle);
 			case HAMMING_DISTANCE:
 				return HammingHeuristicDistance(candidatePuzzle);
+//			case NUMBER_MISPLACED_TILES:
+//				return numberMisplacedTiles(candidatePuzzle);
 			default:
 				throw new IllegalArgumentException("Invalid heuristic type");
 		}
@@ -251,7 +255,6 @@ public class Solver {
 
 		return outputs;
 	}
-
 
 
 //	// Prints out the solution to the output file
