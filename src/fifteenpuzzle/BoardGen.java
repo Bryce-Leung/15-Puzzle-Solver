@@ -8,15 +8,17 @@ public class BoardGen {
 		File f = new File("board1.txt");
 		FileWriter fw = new FileWriter(f);
 		fw.write("3\n");
-		/*
+
 		fw.write(" 5  1  2\n");
 		fw.write(" 8     3\n");
 		fw.write(" 4  6  7\n");
-		*/
+		/*
 		fw.write(" 8  1  2\n");
 		fw.write("    4  3\n");
 		fw.write(" 7  6  5\n");
 
+
+		 */
 
 		fw.close();
 
@@ -55,17 +57,19 @@ public class BoardGen {
 		File f = new File("board2.txt");
 		FileWriter fw = new FileWriter(f);
 		fw.write("4\n");
-		/*
+
 		fw.write(" 1  2  3  4\n");
 		fw.write(" 5  6  7  8\n");
 		fw.write(" 9 10 12 15\n");
 		fw.write("13 14 11   \n");
-		*/
+		/*
 		fw.write(" 3  9  1 15\n");
 		fw.write("14 11  4  6\n");
 		fw.write("13    10 12\n");
 		fw.write(" 2  7  8  5\n");
 
+
+		 */
 		fw.close();
 
 		f = new File("sol2.txt");

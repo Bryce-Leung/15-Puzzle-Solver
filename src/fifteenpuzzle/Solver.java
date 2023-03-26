@@ -66,7 +66,32 @@ public class Solver {
 
 	}
 
-	//Add more function here as needed
+	//TODO Add more function here as needed
+
+	// Hamming heuristic calculation
+	private int HammingHeuristicDistance(Tile candidatePuzzle) {
+		// Initialize variables
+		int rows = candidatePuzzle.getSize();
+		int columns = candidatePuzzle.getSize();
+		int total = 0;
+
+		for (positional currentPosition : candidatePuzzle.allTilePos()){
+			//get the val of the tile at current position
+			int currentValue = candidatePuzzle.getValue(currentPosition);
+
+			if (currentValue > 0) {
+				positional targetPosition = solved.findPosition(currentValue);// Get the target position of the current tile in the solved state
+				//Calculate the Vertical and Horizontal distance between the current position and the target position
+				if(targetPosition != currentPosition) {
+					total++;
+				}
+			}
+
+			}
+
+		return total;
+	}
+
 
 	// Manhattan heuristic calculation
 	//TODO add what must bee needed it is set as private as it will be called within the AStarAlgorithm
@@ -106,7 +131,8 @@ public class Solver {
 	// enum creating the type for Heuristics in case of wants to switch between different heuristics
 	public enum HeuristicType {
 		NUMBER_MISPLACED_TILES,
-		MANHATTAN_DISTANCE
+		MANHATTAN_DISTANCE,
+		HAMMING_DISTANCE
 		// more add here..
 	}
 	// chooses a Heuristic and can make different methods for different Heuristic incase want to make it dynamic
@@ -114,6 +140,8 @@ public class Solver {
 		switch (heuristicChosen) {
 			case MANHATTAN_DISTANCE:
 				return ManhattanHeuristicDistance(candidatePuzzle);
+			case HAMMING_DISTANCE:
+				return HammingHeuristicDistance(candidatePuzzle);
 //			case NUMBER_MISPLACED_TILES:
 //				return numberMisplacedTiles(candidatePuzzle);
 			default:
@@ -283,8 +311,11 @@ public class Solver {
 		// Initialize the solver object with the input board file
 		Solver compute = new Solver(input);
 
+		//HAMMING_DISTANCE
+		//MANHATTAN_DISTANCE
+
 		// Perform the A* algorithm to find the solution using ManHattan Distance heuristics
-		if(compute.AStarAlgorithm(HeuristicType.MANHATTAN_DISTANCE)) {
+		if(compute.AStarAlgorithm(HeuristicType.HAMMING_DISTANCE)) {
 			//this is the filepath name it can be changed
 
 			String fileName = argTemp[1];
