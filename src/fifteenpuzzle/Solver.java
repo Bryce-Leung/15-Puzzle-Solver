@@ -98,25 +98,7 @@ public class Solver {
 
 	// Manhattan heuristic calculation
 	//TODO add what must bee needed it is set as private as it will be called within the AStarAlgorithm
-//	private int ManhattanHeuristicDistance(Tile candidatePuzzle) {
-//		int total = 0;
-//		// for each tile position in all tile positions
-//		for (positional currentPosition : candidatePuzzle.allTilePos()){
-//			//get the val of the tile at current position
-//			int currentValue = candidatePuzzle.getValue(currentPosition);
-//
-//			if (currentValue > 0) {
-//				positional targetPosition = solved.findPosition(currentValue);// Get the target position of the current tile in the solved state
-//				//Calculate the Vertical and Horizontal distance between the current position and the target position
-//				int horizontalDistance = Math.abs(targetPosition.x = currentPosition.x);
-//				int verticalDistance = Math.abs(targetPosition.y = currentPosition.y);
-//				total = total + verticalDistance + horizontalDistance;
-//			}
-//		}
-//
-//		//Return the total sum of Manhattan distances for all non-blank tiles
-//		return total;
-//	}
+
 
 	private int ManhattanHeuristicDistance(Tile candidatePuzzle) {
 		int total = 0;
@@ -290,34 +272,6 @@ public class Solver {
 	}
 
 
-//	// Prints out the solution to the output file
-//	public void writeSolution(List<String> outputSolution, String fileName, String folder) throws IOException {
-//
-//		// finds the path of the given folder
-//		Path folderPath = Paths.get(folder);
-//
-//		// this checks if the folder doesn't exist, creates the folder
-//		if (!Files.exists(folderPath)) {
-//			Files.createDirectories(folderPath);
-//		}
-//
-//		// Create the full path for the file inside the folder
-//		Path fullPath = folderPath.resolve(fileName);
-//
-//		try {
-//			// Create a new file if it doesn't exist, otherwise open the existing file for writing
-//			if (!Files.exists(fullPath)) {
-//				Files.createFile(fullPath);
-//			}
-//
-//			// Write the lines to the file, overrides the previous writing!
-//			Files.write(fullPath, outputSolution);
-//			System.out.println("the solution written to file: " + fullPath);
-//		} catch (IOException e) {
-//			System.err.println("Error writing to file: " + e.getMessage());
-//		}
-//
-//	}
 
 	// Prints out the solution to the output file
 	public void writeSolution(List<String> outputSolution, String fileName) throws IOException {
@@ -366,8 +320,8 @@ public class Solver {
 
 		//assuming 3 files are given fake args
 		String [] argTemp = new String[2];
-		argTemp[0] = "board13.txt"; // given board
-		argTemp[1] = "solution13.txt"; // given Writing File name
+		argTemp[0] = "board15.txt"; // given board
+		argTemp[1] = "solution15.txt"; // given Writing File name
 //		argTemp[2] = "allSolutions"; // given Folder to put the file in
 
 		File input = new File(argTemp[0]);
