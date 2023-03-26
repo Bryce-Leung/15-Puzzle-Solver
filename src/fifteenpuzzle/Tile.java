@@ -19,7 +19,7 @@ import java.lang.Math;
 
 // References:
 // https://codereview.stackexchange.com/questions/86597/optimizing-manhattan-distance-method-for-n-by-n-puzzles
-//
+// https://www.geeksforgeeks.org/check-instance-15-puzzle-solvable/amp/
 
 public class Tile {
     // Initialize private global variable
@@ -211,6 +211,12 @@ public class Tile {
     }
 
 
+    // Returns the size of the board
+    public int getSize() {
+        return size;
+    }
+
+
     // Find the tile position
     public positional findPosition(int item) {
         // Initialize variable
@@ -255,6 +261,7 @@ public class Tile {
     }
 
 
+    //TODO comment
     // Override equals to
     @Override
     public boolean equals(Object o) {
@@ -270,6 +277,7 @@ public class Tile {
     }
 
 
+    //TODO comment
     // Override hashCode to
     @Override
     public int hashCode() {

@@ -90,6 +90,29 @@ public class Solver {
 		return total;
 	}
 
+
+	// Hamming heuristic calculation
+	private int HammingHeuristicDistance(Tile candidatePuzzle) {
+		// Initialize variables
+		int rows = candidatePuzzle.getSize();
+		int columns = candidatePuzzle.getSize();
+		int total = 0;
+
+		for (positional currentPosition : candidatePuzzle.allTilePos()){
+			//get the val of the tile at current position
+			int currentValue = candidatePuzzle.getValue(currentPosition);
+
+			if (currentValue > 0) {
+				positional targetPosition = solved.findPosition(currentValue);// Get the target position of the current tile in the solved state
+				//Calculate the Vertical and Horizontal distance between the current position and the target position
+				if(targetPosition != currentPosition) {
+					total++;
+				}
+			}
+		}
+		return total;
+	}
+
 	public List<Tile> AdjacentNodes(Tile currentBoard){
 		ArrayList<Tile> adjacentNodes = new ArrayList<>();
 		ArrayList<positional> options = currentBoard.movementOptions();
@@ -106,7 +129,9 @@ public class Solver {
 	// enum creating the type for Heuristics in case of wants to switch between different heuristics
 	public enum HeuristicType {
 		NUMBER_MISPLACED_TILES,
-		MANHATTAN_DISTANCE
+		MANHATTAN_DISTANCE,
+
+		HAMMING_DISTANCE,
 		// more add here..
 	}
 	// chooses a Heuristic and can make different methods for different Heuristic incase want to make it dynamic
@@ -116,6 +141,8 @@ public class Solver {
 				return ManhattanHeuristicDistance(candidatePuzzle);
 //			case NUMBER_MISPLACED_TILES:
 //				return numberMisplacedTiles(candidatePuzzle);
+			case HAMMING_DISTANCE:
+				return HammingHeuristicDistance(candidatePuzzle);
 			default:
 				throw new IllegalArgumentException("Invalid heuristic type");
 		}
@@ -126,7 +153,7 @@ public class Solver {
 	public boolean AStarAlgorithm(HeuristicType heuristicType) {
 		//TODO maybe output to a global string list or something that track all moves performed so we can use it
 		Map<Tile, PuzzleNode> nodes = new HashMap<>();
-		// this is the custome comparator to use in priority queue, in order to dequeue, the lowest score first.
+		// this is the custom comparator to use in priority queue, in order to dequeue, the lowest score first.
 		Comparator<Tile> scoreCompare = (a,b) -> nodes.get(a).score - nodes.get(b).score;
 		PriorityQueue<Tile> nodesToCheck = new PriorityQueue<>(10000, scoreCompare);
 
@@ -139,6 +166,12 @@ public class Solver {
 			candidate = nodesToCheck.remove();
 			// if solution was found then return base on the predecessor making it a path.
 			totalVisitedNodes++;
+
+			// temp tester to give motivation of the heap
+			if (totalVisitedNodes % 10000 == 0) {
+				System.out.printf("Considered %,d total Tables. the current Heap Size = %,d\n", totalVisitedNodes, nodesToCheck.size());
+			}
+
 
 			if (candidate.isSolved()){
 				System.out.printf("the solution was found after visiting %d nodes\n ",totalVisitedNodes);
@@ -221,34 +254,58 @@ public class Solver {
 
 
 
+//	// Prints out the solution to the output file
+//	public void writeSolution(List<String> outputSolution, String fileName, String folder) throws IOException {
+//
+//		// finds the path of the given folder
+//		Path folderPath = Paths.get(folder);
+//
+//		// this checks if the folder doesn't exist, creates the folder
+//		if (!Files.exists(folderPath)) {
+//			Files.createDirectories(folderPath);
+//		}
+//
+//		// Create the full path for the file inside the folder
+//		Path fullPath = folderPath.resolve(fileName);
+//
+//		try {
+//			// Create a new file if it doesn't exist, otherwise open the existing file for writing
+//			if (!Files.exists(fullPath)) {
+//				Files.createFile(fullPath);
+//			}
+//
+//			// Write the lines to the file, overrides the previous writing!
+//			Files.write(fullPath, outputSolution);
+//			System.out.println("the solution written to file: " + fullPath);
+//		} catch (IOException e) {
+//			System.err.println("Error writing to file: " + e.getMessage());
+//		}
+//
+//	}
+
 	// Prints out the solution to the output file
-	public void writeSolution(List<String> outputSolution, String fileName, String folder) throws IOException {
+	public void writeSolution(List<String> outputSolution, String fileName) throws IOException {
 
 		// finds the path of the given folder
-		Path folderPath = Paths.get(folder);
+		Path path = Paths.get(fileName);
 
-		// this checks if the folder doesn't exist, creates the folder
-		if (!Files.exists(folderPath)) {
-			Files.createDirectories(folderPath);
-		}
 
-		// Create the full path for the file inside the folder
-		Path fullPath = folderPath.resolve(fileName);
 
 		try {
 			// Create a new file if it doesn't exist, otherwise open the existing file for writing
-			if (!Files.exists(fullPath)) {
-				Files.createFile(fullPath);
+			if (!Files.exists(path)) {
+				Files.createFile(path);
 			}
 
-			// Write the lines to the file, overrides the previous writing!
-			Files.write(fullPath, outputSolution);
-			System.out.println("the solution written to file: " + fullPath);
+			// Write the outputSolution to the file, overwriting the content
+			Files.write(path, outputSolution);
+			System.out.println("Solution written to file: " + fileName);
 		} catch (IOException e) {
 			System.err.println("Error writing to file: " + e.getMessage());
 		}
-
 	}
+
+
 
 
 	public static void main(String [] args) throws IOException {
@@ -272,10 +329,10 @@ public class Solver {
 
 
 		//assuming 3 files are given fake args
-		String [] argTemp = new String[3];
-		argTemp[0] = "board2.txt"; // given board
-		argTemp[1] = "solution2.txt"; // given Writing File name
-		argTemp[2] = "allSolutions"; // given Folder to put the file in
+		String [] argTemp = new String[2];
+		argTemp[0] = "board01.txt"; // given board
+		argTemp[1] = "solution01.txt"; // given Writing File name
+//		argTemp[2] = "allSolutions"; // given Folder to put the file in
 
 		File input = new File(argTemp[0]);
 
@@ -288,10 +345,11 @@ public class Solver {
 			//this is the filepath name it can be changed
 
 			String fileName = argTemp[1];
-			String folderName = argTemp[2];
+//			String folderName = argTemp[2];
 			// Write the solution to the specified output file
 			List<String> output = compute.ansFormat();
-			compute.writeSolution(output,fileName,folderName);
+			compute.writeSolution(output,fileName);
+//			compute.writeSolution(output,fileName,folderName);
 		}
 	}
 
