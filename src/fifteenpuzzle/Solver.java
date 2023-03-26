@@ -38,6 +38,9 @@ public class Solver {
 	Tile candidate;
 	LinkedList<Tile> solutionPath;
 
+	double startTime;
+	double endTime;
+
 	// experimental class for puzzle node eases the HasMap making
 	class PuzzleNode {
 		Tile predecessor;
@@ -95,6 +98,26 @@ public class Solver {
 
 	// Manhattan heuristic calculation
 	//TODO add what must bee needed it is set as private as it will be called within the AStarAlgorithm
+//	private int ManhattanHeuristicDistance(Tile candidatePuzzle) {
+//		int total = 0;
+//		// for each tile position in all tile positions
+//		for (positional currentPosition : candidatePuzzle.allTilePos()){
+//			//get the val of the tile at current position
+//			int currentValue = candidatePuzzle.getValue(currentPosition);
+//
+//			if (currentValue > 0) {
+//				positional targetPosition = solved.findPosition(currentValue);// Get the target position of the current tile in the solved state
+//				//Calculate the Vertical and Horizontal distance between the current position and the target position
+//				int horizontalDistance = Math.abs(targetPosition.x = currentPosition.x);
+//				int verticalDistance = Math.abs(targetPosition.y = currentPosition.y);
+//				total = total + verticalDistance + horizontalDistance;
+//			}
+//		}
+//
+//		//Return the total sum of Manhattan distances for all non-blank tiles
+//		return total;
+//	}
+
 	private int ManhattanHeuristicDistance(Tile candidatePuzzle) {
 		int total = 0;
 		// for each tile position in all tile positions
@@ -105,8 +128,8 @@ public class Solver {
 			if (currentValue > 0) {
 				positional targetPosition = solved.findPosition(currentValue);// Get the target position of the current tile in the solved state
 				//Calculate the Vertical and Horizontal distance between the current position and the target position
-				int horizontalDistance = Math.abs(targetPosition.x = currentPosition.x);
-				int verticalDistance = Math.abs(targetPosition.y = currentPosition.y);
+				int horizontalDistance = Math.abs(targetPosition.x - currentPosition.x);
+				int verticalDistance = Math.abs(targetPosition.y - currentPosition.y);
 				total = total + verticalDistance + horizontalDistance;
 			}
 		}
@@ -156,6 +179,10 @@ public class Solver {
 	// A* algorithm that runs and performs the solving of the puzzle and outputs true if completed and false if it cannot be solved
 	public boolean AStarAlgorithm(HeuristicType heuristicType) {
 		//TODO maybe output to a global string list or something that track all moves performed so we can use it
+
+		// start timer to use for results
+		startTime = System.currentTimeMillis();
+
 		Map<Tile, PuzzleNode> nodes = new HashMap<>();
 		// this is the custom comparator to use in priority queue, in order to dequeue, the lowest score first.
 		Comparator<Tile> scoreCompare = (a,b) -> nodes.get(a).score - nodes.get(b).score;
@@ -181,10 +208,15 @@ public class Solver {
 				System.out.printf("the solution was found after visiting %d nodes\n ",totalVisitedNodes);
 				solutionPath = new LinkedList<>();
 				Tile backTrace = candidate;
+				endTime = System.currentTimeMillis();
 				while (backTrace != null){
 					solutionPath.add(backTrace);
 					backTrace = nodes.get(backTrace).predecessor;
 				}
+
+				//calculate time for the solution to be found used in analysis
+				double time = (endTime - startTime) / 1000.00;
+				System.out.println("Time taken " + time + " seconds.");
 				return true;
 			}
 			// if not get the candidate's adjacent nodes, and calculate their heurestics, and put them in priority queue
@@ -333,8 +365,8 @@ public class Solver {
 
 		//assuming 3 files are given fake args
 		String [] argTemp = new String[2];
-		argTemp[0] = "board01.txt"; // given board
-		argTemp[1] = "solution01.txt"; // given Writing File name
+		argTemp[0] = "board13.txt"; // given board
+		argTemp[1] = "solution13.txt"; // given Writing File name
 //		argTemp[2] = "allSolutions"; // given Folder to put the file in
 
 		File input = new File(argTemp[0]);
