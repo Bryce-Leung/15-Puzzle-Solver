@@ -213,9 +213,10 @@ public class Solver {
 					solutionPath.add(backTrace);
 					backTrace = nodes.get(backTrace).predecessor;
 				}
-
+				int totalMoves = solutionPath.size()-1;
 				//calculate time for the solution to be found used in analysis
 				double time = (endTime - startTime) / 1000.00;
+				System.out.println("Solved in " + totalMoves + " moves.");
 				System.out.println("Time taken " + time + " seconds.");
 				return true;
 			}
