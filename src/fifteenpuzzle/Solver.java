@@ -208,7 +208,7 @@ public class Solver {
 				if (!nodes.containsKey(node)){
 					int newDepth =nodes.get(candidate).depth + 1;
 					// f(Score) = f(heuristic) + f(currentdepth)
-					int newScore = newDepth + heuristicCost(heuristicType,node);
+					int newScore = heuristicCost(heuristicType,node); //newDepth + 
 					// update the prodecessor, depth and, hscore for this adjacent node.
 
 					nodes.put(node,new PuzzleNode(candidate, newDepth, newScore));
