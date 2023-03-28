@@ -83,9 +83,6 @@ public class Tile {
         int counter = 1;
         board = new int [size][size];
 
-        // Insert the empty space into the board
-        empty = new positional((size-1), (size-1));
-        board[empty.getY()][empty.getX()] = 0;
 
         // Loop through each row fills the board
         for (int y = 0; y < size; y++) {
@@ -94,6 +91,9 @@ public class Tile {
                 counter++;
             }
         }
+        // Insert the empty space into the board
+        empty = new positional((size-1), (size-1));
+        board[empty.getY()][empty.getX()] = 0;
     }
 
     public Tile(Tile currentBoard, positional candidate) {
@@ -117,15 +117,38 @@ public class Tile {
         }
 
         // Create solution board
-        solution = new Tile(size);
+        solution = currentBoard.getSolution();
     }
 
+
+    public Tile(Tile currentBoard, int rowsToShift) {
+        // Initialize variables
+        size = currentBoard.size - 1;
+        board = new int [size][size];
+
+        // Copy the current board to the new board
+        for(int y = 0; y < size; y++) {
+            for(int x = 0; x < size; x++) {
+                board[y][x] = currentBoard.board[y + rowsToShift][x + rowsToShift];
+
+                if(currentBoard.board[y + rowsToShift][x + rowsToShift] == 0) {
+                    // Clone empty position
+                    empty = new positional(y,x);
+                }
+            }
+        }
+
+
+    }
 
     // Returns the size of the
     public Tile getSolution() {
         return this.solution;
     }
 
+    public void setSolution(Tile board) {
+        this.solution = board;
+    }
 
     // Returns the position of the empty tile
     private positional getEmpty() {
@@ -250,6 +273,34 @@ public class Tile {
                 if((board[y][x] > 0) && (board[y][x] != solution.board[y][x])) {
                     incorrect++;
                 }
+            }
+        }
+
+        // Checks if the counter for incorrect values has incremented
+        if(incorrect > 0) {
+            return false;
+        }
+        return true;
+    }
+
+
+    public boolean isRowColumnSolved(int position) {
+        // Initialize variable
+        int incorrect = 0;
+
+        // Runs through the board and compares it with the solution board to ensure that they match
+        for(int x = 0; x < size; x++) {
+            // If the board does not match and adds to the counter
+            if((board[position][x] != solution.board[position][x])) {
+                incorrect++;
+            }
+        }
+
+        // Runs through the board and compares it with the solution board to ensure that they match
+        for(int y = 1; y < size; y++) {
+            // If the board does not match and adds to the counter
+            if((board[y][position] != solution.board[y][position])) {
+                incorrect++;
             }
         }
 
