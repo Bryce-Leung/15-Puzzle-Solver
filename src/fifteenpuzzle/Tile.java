@@ -1,15 +1,13 @@
-
-//TODO comment,
-
 package fifteenpuzzle;
 
-        import java.io.File;
-        import java.io.FileNotFoundException;
-        import java.io.IOException;
-        import java.util.ArrayList;
-        import java.util.List;
-        import java.util.Scanner;
-        import java.lang.Math;
+//Import java libraries
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.lang.Math;
 
 // Author: Peiman Zhiani Asgharzadeh
 // Computing ID: pza42
@@ -25,14 +23,15 @@ package fifteenpuzzle;
 
 public class Tile {
     // Initialize private global variable
-    private int size;
+    private final int size;
     private int [][] board;
     private positional empty;
     private Tile solution;
     File BoardFile;
     Scanner setup;
 
-    // Constructor creates the Tile board from the file
+    //CONSTRUCTORS:
+    // Constructor creates the Tile board from provided file
     public Tile(File input) throws IOException {
         // Initialize variable
         int y = 0;
@@ -77,8 +76,7 @@ public class Tile {
         solution = new Tile(size);
     }
 
-
-    // Constructor used to create a generic solution board based on the size of the problem board
+    // Constructor creates the solution Tile board based on the size
     public Tile(int sized) {
         // Initialize variables
         size = sized;
@@ -98,6 +96,7 @@ public class Tile {
         }
     }
 
+    // Constructor creates a Tile board with the proposed move applied
     public Tile(Tile currentBoard, positional candidate) {
         // Initialize variables
         size = currentBoard.size;
@@ -123,25 +122,30 @@ public class Tile {
     }
 
 
-    // Returns the size of the
+    //GETTER FUNCTIONS:
+    // Returns the solution associated to the puzzle
     public Tile getSolution() {
         return this.solution;
     }
 
-
-    // Returns the position of the empty tile
+    // Returns the positional object of the empty tile
     private positional getEmpty() {
         return empty;
     }
-
 
     // Returns the value at desired position
     public int getValue(positional location) {
         return board[location.getY()][location.getX()];
     }
 
+    // Returns the size of the board
+    public int getSize() {
+        return size;
+    }
 
-    // Valid move check
+
+    //MOVEMENT FUNCTIONS:
+    // Checks if the move is valid
     private boolean isValid(positional candidate) {
         // Check if the x or y location is within the valid range
         if((candidate.getY() < 0||candidate.getY() >= size) || (candidate.getX() < 0||candidate.getX() >= size)) {
@@ -152,11 +156,9 @@ public class Tile {
         if((Math.abs(empty.getY() - candidate.getY()) + Math.abs(empty.getX() - candidate.getX())) != 1) {
             return false;
         }
-
         // If nothing is wrong with its movement then it returns true
         return true;
     }
-
 
     // Move the empty tile to a specified location swapping it with the non-empty tile in its path
     public void tileMove(positional location) throws IllegalArgumentException{
@@ -173,8 +175,7 @@ public class Tile {
         board[location.getY()][location.getX()] = 0;
     }
 
-
-    //Find all possible movements for the board for the algorithm to use
+    // Find all possible movements for the board
     public ArrayList<positional> movementOptions() {
         // Initialize variables and an arraylist to store the possible movements
         ArrayList<positional> options = new ArrayList<>();
@@ -182,11 +183,11 @@ public class Tile {
         int x;
         int y;
 
-        // Check all possible directions the empty space can be moved and add all that are considered valid
-        for(int shifty = -1; shifty <= 1 ; shifty++) {
-            for(int shiftx = -1; shiftx <= 1; shiftx++) {
-                x = empty.getX() + shiftx;
-                y = empty.getY() + shifty;
+        // Check all possible directions the empty space can be moved
+        for(int shift_y = -1; shift_y <= 1 ; shift_y++) {
+            for(int shift_x = -1; shift_x <= 1; shift_x++) {
+                x = empty.getX() + shift_x;
+                y = empty.getY() + shift_y;
                 candidate = new positional(y,x);
                 // Checks if the movement would be valid before adding it to the list
                 if(isValid(candidate)) {
@@ -194,77 +195,67 @@ public class Tile {
                 }
             }
         }
-
         // Returns the list storing all options
         return options;
     }
 
 
-    //TODO rewrite this
-    // Returns a lost of all possible tile positions on the board
+    //POSITIONAL FUNCTIONS:
+    // Returns a list of all possible tile positions for the board
     public List<positional> allTilePos() {
-        ArrayList<positional> out = new ArrayList<positional>();
+        // Initialize list to store positional value sets\
+        ArrayList<positional> movements = new ArrayList<>();
+
+        // Loop through all possible tile positions creating new positional objects
         for(int y = 0; y < size; y++) {
             for(int x = 0; x < size; x++) {
-                out.add(new positional(y,x));
+                movements.add(new positional(y,x));
             }
         }
-        return out;
+        // Return the list created
+        return movements;
     }
 
-
-    // Returns the size of the board
-    public int getSize() {
-        return size;
-    }
-
-
-    // Find the tile position
+    // Retrieves the positional data of an item on the board
     public positional findPosition(int item) {
         // Initialize variable
-        positional output = null;
+        positional output;
 
         // Loops through all tiles in the board to find the position of the item present
         for(int y = 0; y < size; y++) {
             for(int x = 0; x < size; x++) {
-                // When the item has been found to position is stored and outputted
+                // When the item has been found to position is stored into a positional type object and outputted
                 if(board[y][x] == item) {
                     output = new positional(y,x);
                     return output;
                 }
             }
         }
-        // If the item cannot be found on the board
-        return null;
+        // If the item could not be found on the board it returns a null
+       return null;
     }
 
 
+    //SOLVE FUNCTION:
     // Checks if the board has been solved
     public boolean isSolved() {
-        // Initialize variable
-        int incorrect = 0;
-
         // Runs through the board and compares it with the solution board to ensure that they match
         for(int y = 0; y < size; y++) {
             for(int x = 0; x < size; x++) {
                 // If the board does not match and adds to the counter
                 if((board[y][x] > 0) && (board[y][x] != solution.board[y][x])) {
-                    incorrect++;
+                    return false;
                 }
             }
         }
-
-        // Checks if the counter for incorrect values has incremented
-        if(incorrect > 0) {
-            return false;
-        }
+        // When no mismatch between the solution board and puzzle board has been found
         return true;
     }
 
 
-    //TODO comment
-    // Override equals to
-    // @Override
+    //OVERRIDING:
+    // Override equals
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -286,9 +277,8 @@ public class Tile {
     }
 
 
-    //TODO comment
-    // Override hashCode to
-    // @Override
+    // Override hashCode
+    @Override
     public int hashCode() {
         int result = 17;
         for (int y = 0; y < size; y++) {

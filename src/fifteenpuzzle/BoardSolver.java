@@ -5,7 +5,7 @@ import java.util.*;
 
 public class BoardSolver {
     public static void main(String[] args) throws IOException {
-        int[][] board = readBoard("board22.txt");
+        int[][] board = readBoard("board31.txt");
         List<String> instructions = Files.readAllLines(Paths.get("sol1.txt"));
         for (String instruction : instructions) {
             board = move(board, instruction);

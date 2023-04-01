@@ -73,7 +73,7 @@ public class Solver {
 			if(difference > 0 && difference <= 2) {
 				temp = AStarAlgorithm(HeuristicType.MAX_COORDINATE_DISTANCE, new_puzzle, new_solution);
 			}
-			else if(difference > 3) {
+			else if(difference > 2) {
 				temp = AStarAlgorithm(HeuristicType.EUCLIDEAN_DISTANCE, new_puzzle, new_solution);
 			}
 			else {
@@ -369,17 +369,17 @@ public class Solver {
 
 	public static void main(String [] args) throws IOException {
 		// Checks if an argument has been passed in by the user
-		if (args.length < 2) {
-			System.out.println("File names are not specified");
-				System.out.println("usage: java " + MethodHandles.lookup().lookupClass().getName() + " input_file output_file");
-				return;
-		}
+		//if (args.length < 2) {
+		//	System.out.println("File names are not specified");
+		//		System.out.println("usage: java " + MethodHandles.lookup().lookupClass().getName() + " input_file output_file");
+		//		return;
+		//}
 
 		// Set up the File type variables from the arguments provided by the user
 
 		//assuming 3 files are given fake args
 		String [] argTemp = new String[2];
-		argTemp[0] = "board36.txt"; // given board
+		argTemp[0] = "board31.txt"; // given board
 		argTemp[1] = "sol1.txt"; // given Writing File name
 
 		File input = new File(argTemp[0]);
