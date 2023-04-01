@@ -20,7 +20,7 @@ import java.nio.file.StandardOpenOption;
 // Student #: 301421630
 
 
-//TODO check if we are supposed to write to an output file or if we are supposed to create the output file
+//TODO check get intput output corrected, comment
 
 // References:
 //https://www.baeldung.com/java-write-to-file
@@ -58,7 +58,7 @@ public class Solver {
 	public Solver(File in) {
 		Tile puzzle;
 		Tile solved;
-		LinkedList<Tile> temp = new LinkedList<>();
+		LinkedList<Tile> temp;
 
 		// Passes the file to the Tile constructor to create the board that will be manipulated
 		try {
@@ -71,20 +71,9 @@ public class Solver {
 			Tile new_puzzle = puzzle;
 			Tile new_solution = solved;
 			if(difference > 0 && difference <= 2) {
-				//for(int i = 0; i < difference; i++) {
-					// Deal with row up to before second last
-						 //Add segements to deal with larger
-				//	temp = AStarAlgorithm(HeuristicType.MAX_COORDINATE_DISTANCE, new_puzzle, new_solution, 0);
-				//	solutionCollection.add(temp);
-				//	new_puzzle = new Tile(Transfer, 1);
-				//	new_solution  = new Tile(new_solution,  1);
-				//	new_puzzle.setSolution(new_solution);
-
-
-				//}
 				temp = AStarAlgorithm(HeuristicType.MAX_COORDINATE_DISTANCE, new_puzzle, new_solution);
 			}
-			else if(difference == 3) {
+			else if(difference > 3) {
 				temp = AStarAlgorithm(HeuristicType.EUCLIDEAN_DISTANCE, new_puzzle, new_solution);
 			}
 			else {
@@ -94,20 +83,16 @@ public class Solver {
 		}
 		// If the board file given could not be found
 		catch (Exception e) {
-			System.out.println(in + "could not be read HELLO THERE" + e);
+			System.out.println(in + "could not be read" + e);
 			e.printStackTrace();
 		}
 
 	}
 
 
-	//TODO Add more function here as needed
-
 	// Hamming heuristic calculation
 	private int HammingHeuristicDistance(Tile candidatePuzzle, Tile solution) {
 		// Initialize variables
-		int rows = candidatePuzzle.getSize();
-		int columns = candidatePuzzle.getSize();
 		int total = 0;
 
 		for (positional currentPosition : candidatePuzzle.allTilePos()){
@@ -121,9 +106,7 @@ public class Solver {
 					total++;
 				}
 			}
-
 		}
-
 		return total;
 	}
 
@@ -138,7 +121,6 @@ public class Solver {
 				positional targetPosition = solved.findPosition(currentValue);
 				int horizontalDistance = Math.abs(targetPosition.x - currentPosition.x);
 				int verticalDistance = Math.abs(targetPosition.y - currentPosition.y);
-//				total += Math.max(verticalDistance, horizontalDistance) + currentValue;
 				total += Math.max(verticalDistance, horizontalDistance);
 			}
 		}
@@ -164,10 +146,6 @@ public class Solver {
 	}
 
 
-	// Manhattan heuristic calculation
-	//TODO add what must bee needed it is set as private as it will be called within the AStarAlgorithm
-
-
 	private int ManhattanHeuristicDistance(Tile candidatePuzzle, Tile solution) {
 		int total = 0;
 		// for each tile position in all tile positions
@@ -183,7 +161,6 @@ public class Solver {
 				total = total + verticalDistance + horizontalDistance;
 			}
 		}
-
 		//Return the total sum of Manhattan distances for all non-blank tiles
 		return total;
 	}
@@ -209,9 +186,9 @@ public class Solver {
 		HAMMING_DISTANCE,
 		MAX_COORDINATE_DISTANCE,
 		EUCLIDEAN_DISTANCE,
-
-		// more add here..
 	}
+
+
 	// chooses a Heuristic and can make different methods for different Heuristic incase want to make it dynamic
 	public int heuristicCost(HeuristicType heuristicChosen, Tile candidatePuzzle , Tile solution, int pos) {
 		switch (heuristicChosen) {
@@ -223,8 +200,6 @@ public class Solver {
 				return HammingHeuristicDistance(candidatePuzzle, solution);
 			case MAX_COORDINATE_DISTANCE:
 				return maxCoordinateDistance(candidatePuzzle, solution);
-//			case NUMBER_MISPLACED_TILES:
-//				return numberMisplacedTiles(candidatePuzzle);
 			default:
 				throw new IllegalArgumentException("Invalid heuristic type");
 		}
@@ -233,10 +208,6 @@ public class Solver {
 
 	// A* algorithm that runs and performs the solving of the puzzle and outputs true if completed and false if it cannot be solved
 	public LinkedList<Tile> AStarAlgorithm(HeuristicType heuristicType, Tile board, Tile solution) {
-		//TODO maybe output to a global string list or something that track all moves performed so we can use it
-
-		// start timer to use for result
-
 		Map<Tile, PuzzleNode> nodes = new HashMap<>();
 		// this is the custom comparator to use in priority queue, in order to dequeue, the lowest score first.
 		Comparator<Tile> scoreCompare = (a,b) -> nodes.get(a).score - nodes.get(b).score;
@@ -397,30 +368,19 @@ public class Solver {
 
 
 	public static void main(String [] args) throws IOException {
-
-		// Prints out the number of arguments provided
-		System.out.println("number of arguments: " + args.length);
-//		for (int i = 0; i < args.length; i++) {
-//			System.out.println(args[i]);
-//		}
-
 		// Checks if an argument has been passed in by the user
-		//if (args.length < 2) {
-		//	System.out.println("File names are not specified");
-		//		System.out.println("usage: java " + MethodHandles.lookup().lookupClass().getName() + " input_file output_file");
-		//		return;
-		//	}
+		if (args.length < 2) {
+			System.out.println("File names are not specified");
+				System.out.println("usage: java " + MethodHandles.lookup().lookupClass().getName() + " input_file output_file");
+				return;
+		}
 
 		// Set up the File type variables from the arguments provided by the user
-		//File input = new File(args[0]);
-		//File output = new File(args[1]);
-
 
 		//assuming 3 files are given fake args
 		String [] argTemp = new String[2];
 		argTemp[0] = "board36.txt"; // given board
 		argTemp[1] = "sol1.txt"; // given Writing File name
-//		argTemp[2] = "allSolutions"; // given Folder to put the file in
 
 		File input = new File(argTemp[0]);
 
@@ -428,16 +388,9 @@ public class Solver {
 		Solver compute = new Solver(input);
 
 		String fileName = argTemp[1];
-//			String folderName = argTemp[2];
 		// Write the solution to the specified output file
 		List<String> output = compute.ansFormat();
 		compute.writeSolution(output,fileName);
-//			compute.writeSolution(output,fileName,folderName);
-
-		// Initialize the solver object with the input board file
-
-
-		// Perform the A* algorithm to find the solution using ManHattan Distance heuristics
 	}
 
 }
