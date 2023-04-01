@@ -70,18 +70,26 @@ public class Solver {
 			Tile temp_puzzle;
 			Tile new_puzzle = puzzle;
 			Tile new_solution = solved;
-			if(difference > 0) {
-				for(int i = 0; i < difference; i++) {
-					temp = AStarAlgorithm(HeuristicType.MANHATTAN_DISTANCE, new_puzzle, new_solution, 0);
-					new_puzzle = new Tile(Transfer, 1);
-					new_solution  = new Tile(new_solution,  1);
-					new_puzzle.setSolution(new_solution);
+			if(difference > 0 && difference <= 2) {
+				//for(int i = 0; i < difference; i++) {
+					// Deal with row up to before second last
+						 //Add segements to deal with larger
+				//	temp = AStarAlgorithm(HeuristicType.MAX_COORDINATE_DISTANCE, new_puzzle, new_solution, 0);
+				//	solutionCollection.add(temp);
+				//	new_puzzle = new Tile(Transfer, 1);
+				//	new_solution  = new Tile(new_solution,  1);
+				//	new_puzzle.setSolution(new_solution);
 
-					solutionCollection.add(temp);
 
-				}
+				//}
+				temp = AStarAlgorithm(HeuristicType.MAX_COORDINATE_DISTANCE, new_puzzle, new_solution);
 			}
-			temp = AStarAlgorithm(HeuristicType.MANHATTAN_DISTANCE, new_puzzle, new_solution);
+			else if(difference == 3) {
+				temp = AStarAlgorithm(HeuristicType.EUCLIDEAN_DISTANCE, new_puzzle, new_solution);
+			}
+			else {
+				temp = AStarAlgorithm(HeuristicType.MANHATTAN_DISTANCE, new_puzzle, new_solution);
+			}
 			solutionCollection.add(temp);
 		}
 		// If the board file given could not be found
@@ -121,39 +129,38 @@ public class Solver {
 
 
 
-	private int ManhattanRowColumnHeuristicDistance(Tile candidatePuzzle, Tile solution, int pos) {
+	private int maxCoordinateDistance(Tile candidatePuzzle, Tile solved) {
+		int total = 0;
+		for (positional currentPosition : candidatePuzzle.allTilePos()) {
+			int currentValue = candidatePuzzle.getValue(currentPosition);
+
+			if (currentValue > 0) {
+				positional targetPosition = solved.findPosition(currentValue);
+				int horizontalDistance = Math.abs(targetPosition.x - currentPosition.x);
+				int verticalDistance = Math.abs(targetPosition.y - currentPosition.y);
+//				total += Math.max(verticalDistance, horizontalDistance) + currentValue;
+				total += Math.max(verticalDistance, horizontalDistance);
+			}
+		}
+		total = total+ ManhattanHeuristicDistance(candidatePuzzle, solved);
+		return total;
+	}
+
+
+	private int EuclideanHeuristicDistance(Tile candidatePuzzle, Tile solution) {
 		int total = 0;
 
-		for(int y = 0; y < solution.getSize(); y++) {
-			positional targetPosition1 = new positional(y,pos);
-			int currentValue1 = solution.getValue(targetPosition1);
+		for (positional currentPosition : candidatePuzzle.allTilePos()) {
+			int currentValue = candidatePuzzle.getValue(currentPosition);
 
-			positional currentPosition1 = candidatePuzzle.findPosition(currentValue1);
-
-			if (currentValue1 > 0) {
-				//Calculate the Vertical and Horizontal distance between the current position and the target position
-				int horizontalDistance = Math.abs(targetPosition1.x - currentPosition1.x);
-				int verticalDistance = Math.abs(targetPosition1.y - currentPosition1.y);
-				total = total + verticalDistance + horizontalDistance;
+			if (currentValue > 0) {
+				positional targetPosition = solution.findPosition(currentValue);
+				int horizontalDistance = targetPosition.x - currentPosition.x;
+				int verticalDistance = targetPosition.y - currentPosition.y;
+				total +=(int)Math.sqrt(Math.pow(horizontalDistance,2)+Math.pow(verticalDistance,2));
 			}
 		}
-
-		for(int x = 0; x < solution.getSize(); x++) {
-			positional targetPosition2 = new positional(pos,x);
-			int currentValue2 = solution.getValue(targetPosition2);
-
-			positional currentPosition2 = candidatePuzzle.findPosition(currentValue2);
-
-			if (currentValue2 > 0) {
-				//Calculate the Vertical and Horizontal distance between the current position and the target position
-				int horizontalDistance = Math.abs(targetPosition2.x - currentPosition2.x);
-				int verticalDistance = Math.abs(targetPosition2.y - currentPosition2.y);
-				total = total + verticalDistance + horizontalDistance;
-			}
-		}
-
-		//Return the total sum of Manhattan distances for all non-blank tiles
-		return (int)(total+2);
+		return total;
 	}
 
 
@@ -198,23 +205,24 @@ public class Solver {
 
 	// enum creating the type for Heuristics in case of wants to switch between different heuristics
 	public enum HeuristicType {
-		NUMBER_MISPLACED_TILES,
 		MANHATTAN_DISTANCE,
 		HAMMING_DISTANCE,
-
-		MANHATTAN_DISTANCE_ROW_COLUMN,
+		MAX_COORDINATE_DISTANCE,
+		EUCLIDEAN_DISTANCE,
 
 		// more add here..
 	}
 	// chooses a Heuristic and can make different methods for different Heuristic incase want to make it dynamic
 	public int heuristicCost(HeuristicType heuristicChosen, Tile candidatePuzzle , Tile solution, int pos) {
 		switch (heuristicChosen) {
-			case MANHATTAN_DISTANCE_ROW_COLUMN:
-				return ManhattanRowColumnHeuristicDistance(candidatePuzzle, solution, pos);
+			case EUCLIDEAN_DISTANCE:
+				return EuclideanHeuristicDistance(candidatePuzzle, solution);
 			case MANHATTAN_DISTANCE:
 				return ManhattanHeuristicDistance(candidatePuzzle, solution);
 			case HAMMING_DISTANCE:
 				return HammingHeuristicDistance(candidatePuzzle, solution);
+			case MAX_COORDINATE_DISTANCE:
+				return maxCoordinateDistance(candidatePuzzle, solution);
 //			case NUMBER_MISPLACED_TILES:
 //				return numberMisplacedTiles(candidatePuzzle);
 			default:
@@ -222,66 +230,6 @@ public class Solver {
 		}
 	}
 
-
-
-	// A* algorithm that runs and performs the solving of the puzzle and outputs true if completed and false if it cannot be solved
-	public LinkedList<Tile> AStarAlgorithm(HeuristicType heuristicType, Tile board, Tile solution, int position) {
-		//TODO maybe output to a global string list or something that track all moves performed so we can use it
-
-		// start timer to use for results
-
-		Map<Tile, PuzzleNode> nodes = new HashMap<>();
-		// this is the custom comparator to use in priority queue, in order to dequeue, the lowest score first.
-		Comparator<Tile> scoreCompare = (a,b) -> nodes.get(a).score - nodes.get(b).score;
-		PriorityQueue<Tile> nodesToCheck = new PriorityQueue<>(10000, scoreCompare);
-
-		// initialize our nodes (given the initial puzzle, and null predecessor, 0 deoth and finding initial heurisitcs)
-		nodes.put(board,new PuzzleNode(null,0,heuristicCost(heuristicType,board,solution, position)));
-		nodesToCheck.add(board);
-		int totalVisitedNodes = 0;
-		//do the following until the priority queue is empty.
-		while (!nodesToCheck.isEmpty()){
-			candidate = nodesToCheck.remove();
-			// if solution was found then return base on the predecessor making it a path.
-			totalVisitedNodes++;
-
-			// temp tester to give motivation of the heap
-			if (totalVisitedNodes % 10000 == 0) {
-				System.out.printf("Considered %,d total Tables. the current Heap Size = %,d\n", totalVisitedNodes, nodesToCheck.size());
-			}
-
-
-			if (candidate.isRowColumnSolved(position)){
-				LinkedList<Tile> solutionPath = new LinkedList<>();
-				Tile backTrace = candidate;
-				Transfer = backTrace;
-				while (backTrace != null){
-					solutionPath.add(backTrace);
-					backTrace = nodes.get(backTrace).predecessor;
-				}
-
-
-				//calculate time for the solution to be found used in analysis
-				return solutionPath;
-			}
-			// if not get the candidate's adjacent nodes, and calculate their heurestics, and put them in priority queue
-			List<Tile> adjacentNodes = AdjacentNodes(candidate);
-			adjacentNodes.forEach(node ->{
-				if (!nodes.containsKey(node)){
-					int newDepth =nodes.get(candidate).depth + 1;
-					// f(Score) = f(heuristic) + f(currentdepth)
-					int newScore = heuristicCost(heuristicType,node,solution, position); //newDepth +
-					// update the prodecessor, depth and, hscore for this adjacent node.
-
-					nodes.put(node,new PuzzleNode(candidate, newDepth, newScore));
-					//add the node to the priority queue with its h(score)
-					nodesToCheck.add(node);
-				}
-			});
-
-		}
-		return null;
-	}
 
 	// A* algorithm that runs and performs the solving of the puzzle and outputs true if completed and false if it cannot be solved
 	public LinkedList<Tile> AStarAlgorithm(HeuristicType heuristicType, Tile board, Tile solution) {
@@ -470,7 +418,7 @@ public class Solver {
 
 		//assuming 3 files are given fake args
 		String [] argTemp = new String[2];
-		argTemp[0] = "board24.txt"; // given board
+		argTemp[0] = "board36.txt"; // given board
 		argTemp[1] = "sol1.txt"; // given Writing File name
 //		argTemp[2] = "allSolutions"; // given Folder to put the file in
 
