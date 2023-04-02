@@ -254,7 +254,7 @@ public class Tile {
 
 
     //OVERRIDING:
-    // Override equals
+    // Override equals speeds up the comparison which used in hashmap, and priority queue.
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -277,7 +277,7 @@ public class Tile {
     }
 
 
-    // Override hashCode
+    // Override hashCode this hashCode speeds up the process of the search by ensuring less duplicates.
     @Override
     public int hashCode() {
         int result = 17;
