@@ -8,10 +8,26 @@ Authors:
 
 # Contents
 
-- [Introduction](#Introduction)
+- [Abstract](#Abstract)
+- [What is an NxN Sliding Puzzle?](#What is an NxN Sliding Puzzle?)
+- [What is the A* Algorithm](#What is the A* Algorithm)
+- [What is a Heuristic?](#What is a Heuristic?)
 
 # **15 Puzzle Solver Documentation:**
 
-### **Introduction**
+### **Abstract**
 
+### **What is an NxN Sliding Puzzle?**
+
+### **What is the A* Algorithm**
+
+### **What is a Heuristic?**
+
+### **Optimal vs. Non-Optimal Solution**
+
+### **FInding the Right Heuristics**
+
+### **Choice of Classes and Data Structures**
+
+### **Concluding Report**
 
