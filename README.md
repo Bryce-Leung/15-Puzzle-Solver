@@ -57,6 +57,9 @@ Some common heuristic examples used to solve NxN sliding puzzles are Manhattan D
 When solving an NxN sliding puzzle using graph traversal, a solution that reaches the goal state (Solved Board) with the minimum number of moves is optimal. In comparison, the non-optimal solution, also known as non-Admissible, despite still reaching the goal state, requires more moves than the optimal method.
 #### **Non-Optimal Use Case (Greedy/Pure-Heuristic)**
 In the case of making a solver for the NxN sliding puzzle, while the optimal A* approach displayed the shortest path to the answer, due to its high memory usage and high computation time, it was only able to solve the maximum 4x4 board instances since on each iteration the algorithm visits both closed and open sets. Since we were seeking a reasonable solution which computes faster, we decided to use other approaches, such as the non-optimal A* algorithm. Greedy A*, also known as Pure-Heuristic A*, changes the computation factors within the function f(n) = g(n) + h(n) and ignores the close-Set g(n), resulting in f(n) = h(n). This method excluding the path already covered to the current node guides the A* more aggressively towards the goal state and was preferred in our case where computation time and solving a greater number of boards mattered the most.
+
+![Table 1-Non-Greedy A Star With Manhattan](https://github.com/Bryce-Leung/15-Puzzle-Solver/assets/74439762/b773e4dc-3dec-460b-b536-fb0e06aa678f)
+
 #### **Comparing Admissible A* vs. Non-Admissibe A*(Greedy) Using Manhattan Heuristic**
 As it is represented in table1 and table2, using the pure heuristic approach, considering only the Manhattan heuristic, resulted in more boards solved. In the case of all 43 boards, the greedy approach solved 29 board instances, while its non-greedy version solved only 17.
 
