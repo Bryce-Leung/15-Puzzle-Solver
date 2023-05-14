@@ -9,7 +9,7 @@ Authors:
 
 - [Introduction](#Introduction)
 
-# **15 Puzzle Solver Documentations:**
+# **15 Puzzle Solver Documentation:**
 
 ### **Introduction**
 
