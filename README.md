@@ -102,3 +102,5 @@ The key data structures used were:
 ---
 As shown on the chart below, by utilizing the greedy A* algorithm and the right heuristic for each board size inside (combined Greedy), our final solution produced the most optimal solution for each board while solving the highest number of boards between other approaches and keeping the computation time low.
 
+![Completed Puzzles Comparison](https://github.com/Bryce-Leung/15-Puzzle-Solver/assets/74439762/bdec79de-68d1-4209-8bdd-2e695a22f41f)
+
