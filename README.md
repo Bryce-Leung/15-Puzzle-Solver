@@ -33,7 +33,7 @@ Authors:
 ### **Finding the Right Heuristics**
 
 ### **Choice of Classes and Data Structures**
-&nbsp; &nbsp; &nbsp; &nbsp; **Data Structures**
+###### **Data Structures**
 
 ### **Concluding Report**
 
