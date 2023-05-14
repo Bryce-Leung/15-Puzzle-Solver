@@ -14,10 +14,10 @@ Authors:
 - [What is a Heuristic](#What-is-a-Heuristic)
 - [Optimal vs. Non-Optimal Solution](#Optimal-vs.-Non-Optimal-Solution)
 - [Finding the Right Heuristics](#Finding-the-Right-Heuristics)
-  - [Weighted/Randomized Heuristics](Weighted/Randomized-Heuristics)
-  - [Mixed Heuristics](Mixed-Heuristics)
+  - [Weighted/Randomized Heuristics](#Weighted/Randomized-Heuristics)
+  - [Mixed Heuristics](#Mixed-Heuristics)
 - [Choice of Classes and Data Structures](#Choice-of-Classes-and-Data-Structures)
-  - [Data Structures](#Data-Structures:)
+  - [Data Structures](#Data-Structures)
 - [Concluding Report](#Concluding-Report)
 
 # **15 Puzzle Solver Documentation:**
@@ -44,7 +44,7 @@ Authors:
 
 ### **Choice of Classes and Data Structures**
 ---
-#### **Data Structures:**
+#### **Data Structures**
 
 ### **Concluding Report**
 ---
