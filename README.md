@@ -2,7 +2,7 @@
 
 Authors:
 [Bryce Leung](https://github.com/Bryce-Leung),
-[Peiman Zhiani]()
+[Peiman Zhiani](https://github.com/peyz21)
 
 # **15 Puzzle Solver Overview:**
 
