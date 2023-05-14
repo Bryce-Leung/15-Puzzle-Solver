@@ -60,6 +60,8 @@ In the case of making a solver for the NxN sliding puzzle, while the optimal A* 
 
 ![Table 1-Non-Greedy A Star With Manhattan](https://github.com/Bryce-Leung/15-Puzzle-Solver/assets/74439762/b773e4dc-3dec-460b-b536-fb0e06aa678f)
 
+![Table 1-Greedy With Manhattan](https://github.com/Bryce-Leung/15-Puzzle-Solver/assets/74439762/60857363-56ce-4922-8ab3-97ae6b31fba7)
+
 #### **Comparing Admissible A* vs. Non-Admissibe A*(Greedy) Using Manhattan Heuristic**
 As it is represented in table1 and table2, using the pure heuristic approach, considering only the Manhattan heuristic, resulted in more boards solved. In the case of all 43 boards, the greedy approach solved 29 board instances, while its non-greedy version solved only 17.
 
