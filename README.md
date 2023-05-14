@@ -4,8 +4,7 @@ Authors:
 [Bryce Leung](https://github.com/Bryce-Leung),
 [Peiman Zhiani](https://github.com/peyz21)
 
-# Contents
-
+# Contents:
 - [Abstract](#Abstract)
 - [What is an NxN Sliding Puzzle](#What-is-an-NxN-Sliding-Puzzle)
 - [What is the A* Algorithm](#What-is-the-A*-Algorithm)
