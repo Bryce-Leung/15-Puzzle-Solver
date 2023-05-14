@@ -80,6 +80,8 @@ According to the previous section on the non-optimal solution (greedy A*), we al
 #### **Mixed Heuristics**
 Another method that we increase the performance of the heuristics was by adding various heuristics together and comparing the results. In some instances, the combined heuristics would solve boards in a way with less computation time and even solve boards that were initially impossible to solve. As shown in the table3, the Max Coordinate heuristic, when added to the Manhattan, resulted in mostly faster computation time and a more significant number of solved boards.
 
+![Table 2 Computation Time for Max Coordinate](https://github.com/Bryce-Leung/15-Puzzle-Solver/assets/74439762/29e6fae6-5b30-4298-9c31-456e9759eae7)
+
 ### **Choice of Classes and Data Structures**
 ---
 We broke down the problem into three main classes:
