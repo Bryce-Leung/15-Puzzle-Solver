@@ -15,6 +15,7 @@ Authors:
 - [Optimal vs. Non-Optimal Solution](#Optimal-vs.-Non-Optimal-Solution)
 - [Finding the Right Heuristics](#Finding-the-Right-Heuristics)
 - [Choice of Classes and Data Structures](#Choice-of-Classes-and-Data-Structures)
+  - [Data Structures](#Data-Structures)
 - [Concluding Report](#Concluding-Report)
 
 # **15 Puzzle Solver Documentation:**
@@ -32,7 +33,7 @@ Authors:
 ### **Finding the Right Heuristics**
 
 ### **Choice of Classes and Data Structures**
-#### ** Data Structures**
+&nbsp; &nbsp; &nbsp; &nbsp; **Data Structures**
 
 ### **Concluding Report**
 
