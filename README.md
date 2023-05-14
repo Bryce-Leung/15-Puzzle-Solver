@@ -58,18 +58,18 @@ When solving an NxN sliding puzzle using graph traversal, a solution that reache
 #### **Non-Optimal Use Case (Greedy/Pure-Heuristic)**
 In the case of making a solver for the NxN sliding puzzle, while the optimal A* approach displayed the shortest path to the answer, due to its high memory usage and high computation time, it was only able to solve the maximum 4x4 board instances since on each iteration the algorithm visits both closed and open sets. Since we were seeking a reasonable solution which computes faster, we decided to use other approaches, such as the non-optimal A* algorithm. Greedy A*, also known as Pure-Heuristic A*, changes the computation factors within the function f(n) = g(n) + h(n) and ignores the close-Set g(n), resulting in f(n) = h(n). This method excluding the path already covered to the current node guides the A* more aggressively towards the goal state and was preferred in our case where computation time and solving a greater number of boards mattered the most.
 
-![Table 1-Non-Greedy A Star With Manhattan](https://github.com/Bryce-Leung/15-Puzzle-Solver/assets/74439762/b773e4dc-3dec-460b-b536-fb0e06aa678f)
+<p align="center"><img width="700" alt="Table 1-Non-Greedy A Star With Manhattan" src="https://github.com/Bryce-Leung/15-Puzzle-Solver/assets/74439762/b773e4dc-3dec-460b-b536-fb0e06aa678f"></p>
 
-![Table 1-Greedy With Manhattan](https://github.com/Bryce-Leung/15-Puzzle-Solver/assets/74439762/60857363-56ce-4922-8ab3-97ae6b31fba7)
+<p align="center"><img width="700" alt="Table 1-Greedy With Manhattan" src="https://github.com/Bryce-Leung/15-Puzzle-Solver/assets/74439762/60857363-56ce-4922-8ab3-97ae6b31fba7"></p>
 
 #### **Comparing Admissible A* vs. Non-Admissibe A*(Greedy) Using Manhattan Heuristic**
 As it is represented in table1 and table2, using the pure heuristic approach, considering only the Manhattan heuristic, resulted in more boards solved. In the case of all 43 boards, the greedy approach solved 29 board instances, while its non-greedy version solved only 17.
 
-![Greedy vs Non-Greedy Manhattan Distance](https://github.com/Bryce-Leung/15-Puzzle-Solver/assets/74439762/1ad95056-7ae3-46ae-86f7-feb94764be13)
+<p align="center"><img width="700" alt="Greedy vs Non-Greedy Manhattan Distance" src="https://github.com/Bryce-Leung/15-Puzzle-Solver/assets/74439762/1ad95056-7ae3-46ae-86f7-feb94764be13"></p>
 
 While our eventual goal is to solve more board instances, it is also worth noting, as the figure above (Total Nodes Visited) shows, despite visiting fewer nodes and achieving the result at a faster pace, as the complexity of the board increases, based on the below figure (Total Number of Moves) the optimality of the pure-heuristic approach decreases significantly. Despite that, we chose to continue with the pure-Heuristic method approach with the aim of solving the larger size of the boards while keeping the computation time low.
 
-![Greedy vs Non-Greedy Manhattan Distance Total Number of Moves Solution](https://github.com/Bryce-Leung/15-Puzzle-Solver/assets/74439762/d3eec038-f5f3-4e6b-9021-f78f097de103)
+<p align="center"><img width="700" alt="Greedy vs Non-Greedy Manhattan Distance Total Number of Moves Solution" src="https://github.com/Bryce-Leung/15-Puzzle-Solver/assets/74439762/d3eec038-f5f3-4e6b-9021-f78f097de103"></p>
 
 ### **Finding the Right Heuristics**
 ---
@@ -77,12 +77,13 @@ Throughout the process of creating the solver, we went through numerous differen
 #### **Weighted/Randomized Heuristics**
 According to the previous section on the non-optimal solution (greedy A*), we also covered areas such as Weighted and Randomized heuristics, which is essentially in the calculation of the heuristic; we multiplied or added the final value after each iteration with a constant C either to all the values or to each at random for each desired heuristic, in order to influence the search behaviour, often to find a solution more quickly at the expense of optimality. The best value C for each heuristic was found by trial and error. The weighted non-optimal heuristic can be expressed as f(n) = C* f(h). When w < 1, the heuristic value is deflated, which reduces the influence of the heuristic on the search. Since the heuristic can overestimate the cost in non-admissible searches, deflating it might help counteract some of the overestimations, leading to a more narrowed exploration. Shown below is an example result for board25.txt being solved with the Manhattan heuristic multiplied by this value C value of 0.8 and 0.75, which decreased the computation time significantly. Due to the variety of the results, we decided not to include them in our final version of the Solver.
 
-![Data](https://github.com/Bryce-Leung/15-Puzzle-Solver/assets/74439762/eb98b3f4-5570-4e23-ad1d-b623a47b0aa4)
+<p align="center"><img width="700" alt="Data" src="https://github.com/Bryce-Leung/15-Puzzle-Solver/assets/74439762/eb98b3f4-5570-4e23-ad1d-b623a47b0aa4"></p>
 
 #### **Mixed Heuristics**
 Another method that we increase the performance of the heuristics was by adding various heuristics together and comparing the results. In some instances, the combined heuristics would solve boards in a way with less computation time and even solve boards that were initially impossible to solve. As shown in the table3, the Max Coordinate heuristic, when added to the Manhattan, resulted in mostly faster computation time and a more significant number of solved boards.
 
-![Table 2 Computation Time for Max Coordinate](https://github.com/Bryce-Leung/15-Puzzle-Solver/assets/74439762/29e6fae6-5b30-4298-9c31-456e9759eae7)
+<p align="center"><img width="700" alt="Table 2 Computation Time for Max Coordinate" src="https://github.com/Bryce-Leung/15-Puzzle-Solver/assets/74439762/29e6fae6-5b30-4298-9c31-456e9759eae7"></p>
+
 
 ### **Choice of Classes and Data Structures**
 ---
@@ -106,5 +107,4 @@ The key data structures used were:
 ---
 As shown on the chart below, by utilizing the greedy A* algorithm and the right heuristic for each board size inside (combined Greedy), our final solution produced the most optimal solution for each board while solving the highest number of boards between other approaches and keeping the computation time low.
 
-![Completed Puzzles Comparison](https://github.com/Bryce-Leung/15-Puzzle-Solver/assets/74439762/bdec79de-68d1-4209-8bdd-2e695a22f41f)
-
+<p align="center"><img width="700" alt="Completed Puzzles Comparison" src="https://github.com/Bryce-Leung/15-Puzzle-Solver/assets/74439762/bdec79de-68d1-4209-8bdd-2e695a22f41f"></p>
