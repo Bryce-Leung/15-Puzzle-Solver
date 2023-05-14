@@ -64,6 +64,8 @@ As it is represented in table1 and table2, using the pure heuristic approach, co
 
 While our eventual goal is to solve more board instances, it is also worth noting, as the figure above (Total Nodes Visited) shows, despite visiting fewer nodes and achieving the result at a faster pace, as the complexity of the board increases, based on the below figure (Total Number of Moves) the optimality of the pure-heuristic approach decreases significantly. Despite that, we chose to continue with the pure-Heuristic method approach with the aim of solving the larger size of the boards while keeping the computation time low.
 
+![Greedy vs Non-Greedy Manhattan Distance Total Number of Moves Solution](https://github.com/Bryce-Leung/15-Puzzle-Solver/assets/74439762/d3eec038-f5f3-4e6b-9021-f78f097de103)
+
 ### **Finding the Right Heuristics**
 ---
 Throughout the process of creating the solver, we went through numerous different heuristic options. We decided to keep and present some of these in the final code: The Manhattan Distance, Hamming Distance, Euclidean Distance, and Max-coordinate. What we discovered was that each heuristic had its own strength and weakness,and when applied to different board sizes, each one worked differently. The final form of the heuristic we used was a mixture of Manhattan, Euclidean, and Max-coordinate, each for a specific range of boards.
