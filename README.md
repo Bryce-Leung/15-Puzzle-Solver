@@ -7,7 +7,7 @@ Authors:
 # Contents:
 - [Abstract](#Abstract)
 - [What is an NxN Sliding Puzzle](#What-is-an-NxN-Sliding-Puzzle)
-- [What is the A* Algorithm](#What-is-the-A*-Algorithm)
+- [What is the A Star Algorithm](#What-is-the-A-Star-Algorithm)
   - [The Goal of Our Project](#The-Goal-of-Our-Project)
   - [The Search Algorithm We Chose](#The-Search-Algorithm-We-Chose)
 - [What is a Heuristic](#What-is-a-Heuristic)
@@ -15,7 +15,7 @@ Authors:
   - [Examples of Heuristics](#Examples-of-Heuristics)
 - [Optimal vs. Non-Optimal Solution](#Optimal-vs.-Non-Optimal-Solution)
   - [Non-Optimal Use Case (Greedy/Pure-Heuristic)](#Non-Optimal-Use-Case-(Greedy/Pure-Heuristic))
-  - [Comparing Admissible A* vs. Non-Admissibe A*(Greedy) Using Manhattan Heuristic](#Comparing-Admissible-A*-vs.-Non-Admissibe-A*(Greedy)-Using-Manhattan-Heuristic)
+  - [Comparing Admissible A Star vs. Non-Admissibe A Star(Greedy) Using Manhattan Heuristic](#Comparing-Admissible-A-Star-vs.-Non-Admissibe-A-Star(Greedy)-Using-Manhattan-Heuristic)
 - [Finding the Right Heuristics](#Finding-the-Right-Heuristics)
   - [Weighted/Randomized Heuristics](#Weighted/Randomized-Heuristics)
   - [Mixed Heuristics](#Mixed-Heuristics)
@@ -37,7 +37,7 @@ Our project aimed to create a program that could solve an NxN Sliding Puzzle. Se
 #### **The Search Algorithm We Chose**
 The approach we chose was to utilize an A* search algorithm to solve the sliding puzzle boards. This was chosen due to its ability to find the shortest path possible to solve the puzzle, with more efficient time and memory usage compared to DFS and BFS. As the DFS explores all child nodes before backtracking, and BFS explores every node to a given depth. Additionally, with a suitable heuristic, it can solve larger puzzles quickly. A*, compared to other methods such as IDA*, is simpler to implement, which allowed us to focus on optimization and heuristic finding.
 
-### **What is the A* Algorithm**
+### **What is the A Star Algorithm**
 ---
 The A* algorithm, an extension of Dijkstra’s algorithm, is a type of graph traversal algorithm that is best first search utilizing weighted graphs. With the weighted graphs, the cost is computed based on the type of heuristic provided. The algorithm bases its movement on selecting the graph that has the lowest cost. During the search process, there is an open set that stores nodes not yet explored and a closed set that stores the nodes that have been explored. Leading to a path with the least cost, which finds the best route for distance and time. However, the trade-off is its large space complexity due to its need to store all possible paths along with the large time complexity spent finding these paths. In the case of the NxN-Board solver, Each puzzle instance with the empty space would be considered a node, and the goal is to find the “solved state node” within this graph by traversing from the given initial board state. There is a total of (N.N)! permutations of such nodes where N is the size of the board’s width/ height. However, not all instances are solvable. About half are unsolvable boards, which makes this (N.N)! /2 nodes or board states. This is why A*, with the help of a very precise heuristic to guide the process, is necessary.
 
@@ -59,7 +59,7 @@ In the case of making a solver for the NxN sliding puzzle, while the optimal A* 
 
 <p align="center"><img width="700" alt="Table 1-Greedy With Manhattan" src="https://github.com/Bryce-Leung/15-Puzzle-Solver/assets/74439762/60857363-56ce-4922-8ab3-97ae6b31fba7"></p>
 
-#### **Comparing Admissible A* vs. Non-Admissibe A*(Greedy) Using Manhattan Heuristic**
+#### **Comparing Admissible A Star vs. Non-Admissibe A Star(Greedy) Using Manhattan Heuristic**
 As it is represented in table1 and table2, using the pure heuristic approach, considering only the Manhattan heuristic, resulted in more boards solved. In the case of all 43 boards, the greedy approach solved 29 board instances, while its non-greedy version solved only 17.
 
 <p align="center"><img width="700" alt="Greedy vs Non-Greedy Manhattan Distance" src="https://github.com/Bryce-Leung/15-Puzzle-Solver/assets/74439762/1ad95056-7ae3-46ae-86f7-feb94764be13"></p>
