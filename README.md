@@ -23,6 +23,9 @@ Authors:
   - [Data Structures](#Data-Structures)
 - [Concluding Report](#Concluding-Report)
 
+# **How to Use:**
+
+
 # **15 Puzzle Solver Implementation Documentation:**
 
 ### **Abstract**
