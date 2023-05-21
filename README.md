@@ -24,13 +24,9 @@ Authors:
 - [Concluding Report](#Concluding-Report)
 
 # **How to Use:**
-Compile all the .java files on your computer
-
-Create the desired board you want solved in the following format:
-
-Run the program by typing out the following form:
-Java FifteenPuzzleSolver input.txt ouputfile.txt
-
+1. Compile all the .java files on your computer
+2. Create the desired board you want solved in the following format:
+3. Run the program by typing out the following form:
   
 # **15 Puzzle Solver Implementation Documentation:**
 
