@@ -25,7 +25,7 @@ Authors:
 
 # **How to Use:**
 1. Compile all the .java files on your computer
-2. Create the desired board you want solved in the following format:
+2. Create the desired board you want solved from the following examples: https://github.com/Bryce-Leung/15-Puzzle-Solver/tree/main/boards
 3. Run the program by typing out the following form:
   
 # **15 Puzzle Solver Implementation Documentation:**
